@@ -1,0 +1,19 @@
+Problem 1
+	Part A:
+		Looking up information relevant to the course online.ACCEPTABLE
+		Asking the course staff for help. ACCEPTABLE
+	Part B:
+		Emacs, Eclipse, Sublime, Microsoft Visual Studio
+	Part C:
+		Each student has 3 late days of which only one can be used per HW.
+	Part D:
+		Start the next assignment sooner.	
+
+Problem 2:
+	Part A:
+		The Terminal (Mac or Linux) is supported
+	Part B:
+		1. git add hw1q2b.cpp
+		2. git log -3
+	Part C:
+		When you use git commit, you are making the file you are committing as part of repository. You have to enter a message associated with the commit. Since there is no message, the terminal will prompt you to enter a message.
