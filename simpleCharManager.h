@@ -20,6 +20,8 @@ class simpleCharManager
 		static const int BUF_SIZE = 10000;
 		char buffer[BUF_SIZE];
                 char* free_place;
+                bool first_element;
+   				bool last_element;
 };
 
 

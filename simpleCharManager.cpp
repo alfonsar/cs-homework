@@ -9,14 +9,15 @@ simpleCharManager::simpleCharManager(){
         {
         	buffer[i]='\0';
         }
+  first_element=false;
+  last_element=false;
 }
 
 simpleCharManager::~simpleCharManager(){}
 
 char* simpleCharManager::alloc_chars(int n)
 {
-   bool first_element=false;
-   bool last_element=false;
+
    for(int i=0; i<BUF_SIZE;i++)
    {
         if(buffer[i]=='\0')
