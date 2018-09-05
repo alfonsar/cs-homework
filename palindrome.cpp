@@ -23,9 +23,9 @@ bool helper (std::stringstream &input, int len)
 	bool val = helper(input, len-2);
 
 	//make your changes only below this line.
-	char last;
-	input>>last;
-	if (last==prev) return true;
+	char last; //creates a char
+ 	input>>last;  //puts in char from ss stream into last variable
+	if (last==prev) return true; //will compare the first and last variables
 	return false;
 	 
 }
