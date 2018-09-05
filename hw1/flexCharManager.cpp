@@ -40,7 +40,7 @@ char* flexCharManager::alloc_chars(int n){
 	
 	for (int i=0;i<BUF_SIZE;i++)
 	{
-		if(availability_array[i]==true)
+		if(availability_array[i])
 		{
 			//counter for amount of letters
 			letters++;
