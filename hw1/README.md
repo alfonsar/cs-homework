@@ -4,6 +4,8 @@
 - **USC ID**: 2576069373
 - **Email**: alfonsar@usc.edu
 
+For grading: 
+	Please just grade all the files in hw1 folder. I have duplicates outside of this folder but my final files are those in hw1 folder.
 Homework 1 Files:
 hw1.txt
 palindrome.cpp
