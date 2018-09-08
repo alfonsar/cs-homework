@@ -1,0 +1,7 @@
+Problem 1
+PartA: When you clone a repository, then you are tracking an unmodified file. 
+PartB: readme is modified. fun_problem.txt is unmodified and not staged either.
+PartC: Once you add the README.md and fun_problem.txt are staged 
+PartD: readme and fun_problem.txt are modified.
+PartE: Readme is staged while the fun_problem.txt is unmodified. The contents of fun_problem.txt are empty because since the txt file was never added or committed, the file only lives in the local repo.
+Part F: Readme is modified. 
