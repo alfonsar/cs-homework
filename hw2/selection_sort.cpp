@@ -42,10 +42,12 @@ Item* findMin(Item* head)
 
 Item* LLSelectionSort(Item * head);
 {
-	Item* temp;
+	//Item* temp;
 	Item* minimum;
+
 	minimum=findMin(head);
-	temp=minimum;
+	Item* pre_min;
+	//temp=minimum;
 	
 	if(head==nullptr)
 	{
@@ -55,18 +57,34 @@ Item* LLSelectionSort(Item * head);
 	{	
 		if (head->next->getValue()<head->getValue())
 		{
-			temp->prev->next=temp->next;
+			minimum=head->next;
+			pre_min=minimum->prev;
+			/*temp->prev->next=temp->next;
 			temp->next->prev=temp->prev;
 			minimum->prev=null;
 			minimum->next=head;
 			head=minimum;	
+			*/
 		}
 	}
 }
 
-void swapper(Item* p, Item* n)
+void swapper(Item* left, Item* right)
 {
+	
+	
+	Item* temp=left;
+	right->next=temp;
+	temp->previous=right;
+	
+
+	/*
+	left->next=right->next;
+	right->next->prev=right->prev;
+	rig
+
 	Item* temp=p;
 	temp->next->prevous=n;
 	temp->previous->next=n
+	*/
 }
