@@ -45,7 +45,6 @@ Item* LLSelectionSort(Item * head)
 	Item* order=head;
 	Item* minimum;
 	
-	
 	if(head==nullptr)
 	{
 		return nullptr;
@@ -87,14 +86,15 @@ Item* LLSelectionSort(Item * head)
 		
 		if (head->next->getValue()<head->getValue())
 		{
-			temp->prev->next=temp->next;
+			minimum=head->next;
+			pre_min=minimum->prev;
+			/*temp->prev->next=temp->next;
 			temp->next->prev=temp->prev;
 			minimum->prev=null;
 			minimum->next=head;
 			head=minimum;	
+			*/
 		}
-		*/
-	}
 	return order;
 }
 
