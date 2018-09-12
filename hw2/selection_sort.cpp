@@ -40,19 +40,51 @@ Item* findMin(Item* head)
 	return nullptr;
 }
 
-Item* LLSelectionSort(Item * head);
+Item* LLSelectionSort(Item * head)
 {
-	Item* temp;
+	Item* order=head;
 	Item* minimum;
-	minimum=findMin(head);
-	temp=minimum;
+	
 	
 	if(head==nullptr)
 	{
 		return nullptr;
 	}
-	while (head->next!=nullptr)
+	while (order->next!=nullptr)
 	{	
+		minimum=findMin(order);
+		if(minimum==order)
+		{
+			order=order->next;
+			continue;
+		}
+		if(minimum->next!=nullptr)
+		{
+			minimum->next->prev=minimum->prev;
+		
+		}
+			minimum->prev->next=minimum->next;
+
+		if(order->prev!=nullptr)
+		{
+			order->prev->next=order->next;
+			minimum->prev=order->prev;
+		}
+		else
+		{
+			head=minimum;
+			minimum->prev=nullptr;
+		}
+		order->prev=minimum;
+		minimum->next=order;
+		
+		
+		/*
+		minimum->prev=order->prev;
+		minimum->prev->next=order->next;ygt
+			order->next=minimum->next;
+			
+		
 		if (head->next->getValue()<head->getValue())
 		{
 			temp->prev->next=temp->next;
@@ -61,12 +93,8 @@ Item* LLSelectionSort(Item * head);
 			minimum->next=head;
 			head=minimum;	
 		}
+		*/
 	}
+	return order;
 }
 
-void swapper(Item* p, Item* n)
-{
-	Item* temp=p;
-	temp->next->prevous=n;
-	temp->previous->next=n
-}
