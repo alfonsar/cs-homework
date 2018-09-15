@@ -1,0 +1,16 @@
+Problem 1
+PartA: When you clone a repository, then you are tracking an unmodified file. 
+PartB: readme is modified. fun_problem.txt is untracked.
+PartC: Once you add the README.md and fun_problem.txt are staged 
+PartD: readme and fun_problem.txt are modified.
+PartE: Readme is staged while the fun_problem.txt is unmodified. The contents of fun_problem.txt are empty because since the txt file was never added or committed, the file only lives in the local repo.
+Part F: Readme is modified. 
+
+Problem 3
+1. A map of keys (integers) containing all of the zip codes of the particular area/ dataset. 
+2. A set of strings containing the students that did solve the chocolate problem in CSCI 104. 
+3. A list of strings which could then be ordered by their pokedex index.
+4. A map which could have the keyType key could be strings that contain the movie name as well as the year. You could then then use a function such as valueType get() that will return the reviews associated with that movie. 
+
+Problem 4
+The linked list 5,4,3,2,1 is returned. Function A is essentially running through the list until it reaches the end (in->next==NULL), which then returns the last node. Within the if statement if (in->next!=null), functionB is called which simply reverses the order of the two nodes passing in as a parameter. 
