@@ -1,0 +1,8 @@
+Problem 2 Part B
+
+Constant time for enqueue since we know that we are always just pushing to the top of the stack. For dequeue, the worst case scenario is that stack 2 is empty so we pop the entire stack1, which takes n times. Then it takes n times to push into stack 2, and then pop off the top of stack two, The overal worst case running time is Θ(n).
+
+Part C
+For enqueue it is still constant time because enqueue just pushes (x) and that takes constant time Θ(1). For dequeue, each push takes Θ(n) for each element so that times the number of elements n, plus the pop at the end will take a total of Θ(n^2).
+
+Probblem 3.
