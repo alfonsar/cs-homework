@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
 	{
 		bool good=false;
 		//if emptty, we move on
+	
 		if(s_line.size()==0)
 		{
 			continue;
@@ -45,6 +46,7 @@ int main(int argc, char* argv[])
 			{
 				good=true;
 			}
+		}
 			if(good)
 			{
 				Stack mystack;
@@ -53,6 +55,10 @@ int main(int argc, char* argv[])
 					if(s_line[i]==' ')
 					{
 						continue;
+					}
+					if(s_line[i]=='(')
+					{
+
 					}
 					if(s_line[i]=='*')
 					{
@@ -73,24 +79,65 @@ int main(int argc, char* argv[])
 					if(s_line[i]>-1)
 					{
 						mystack.push(s_line);
-					}
+					}	
 				}
-				while(mystack.size()!=0)
+				int n=1;
+				int numbers=0;
+				bool begin=false;
+				Stack calc;
+				while(mystack.top()!=OPEN_PAREN)
 				{
-					int top1=mystack.top();
-					mystack.pop();
-					int top2=mystack.top();
-					mystack.pop();
-					if(top1<0)
+					while(mystack.top()>-1 && mystack.size()!=0)
 					{
-						top1=top2;
-						top2=mystack.top();
+						number+=mystack.top()*n;
+						n*=10;
+						//begin=true;
+						mystack.pop();
+
+					}
+					if(mystack.top()==LEFT || mystack.top()==RIGHT )
+					{
+						while(mystack.top()==LEFT)
+						{
+							mystack.pop();
+							number*=2;
+						}
+						while(mystack.top()==RIGHT)
+						{
+							mystack.pop();
+							number/=2;
+						}
+					}
+					calc.push(number);
+					
+					if(mystack.top()==MULT || mystack.top()==PLUS)
+					{
+						calc.push(mystack.top());
+						mystack.pop();
 					}
 				}
-				
+				mystack.pop(); //pop open paren
+				while(!calc.empty())
+				{
+					int topper=calc.top();
+					calc.pop();
+					if(calc.top()==MULT)
+					{
+						calc.pop();
+						topper*=calc.top();
+						
+					}
+					if(calc.top()==ADD)
+					{
+						calc.pop();
+						topper+=calc.top();
+					}
+					mystack.push(topper)
+					calc.pop();
+				}
 			}
 
 
-		}
+		
 	}
 }
