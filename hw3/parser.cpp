@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 	const int PLUS=-4;
 	const int LEFT=-5;
 	const int RIGHT=-6;
-	string s_line;
+	std::string s_line;
 	while(getline(infile,s_line))
 	{
 		bool good=false;
@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
 		{
 			continue;
 		}
-		
 		Stack syntax;
 		for(int i=0;i<s_line.size();i++)
 		{
@@ -52,35 +51,17 @@ int main(int argc, char* argv[])
 				Stack mystack;
 				for(int i=0;i<s_line.size();i++)
 				{
-					if(s_line[i]==' ')
-					{
-						continue;
-					}
-					if(s_line[i]=='(')
-					{
-
-					}
-					if(s_line[i]=='*')
-					{
-						mystack.push(MULT);
-					}
-					if(s_line[i]=='+')
-					{
-						mystack.push(PLUS);
-					}
-					if(s_line[i]=='<')
-					{
-						mystack.push(LEFT);
-					}
-					if(s_line[i])=='>');
-					{
-						mystack.push(RIGHT);
-					}
-					if(s_line[i]>-1)
-					{
-						mystack.push(s_line);
-					}	
+					if(s_line[i]==' ') continue;
+					if(s_line[i]=='(') mystack.push(OPEN_PAREN);
+					//if(s_line[i]==')') mystack.push(CLOSED_PAREN);
+					if(s_line[i]=='*') mystack.push(MULT);
+					if(s_line[i]=='+') mystack.push(PLUS);
+					if(s_line[i]=='<') mystack.push(LEFT);
+					if(s_line[i])=='>') mystack.push(RIGHT);
+					if(s_line[i]>-1) mystack.push(s_line);
+					
 				}
+
 				int n=1;
 				int numbers=0;
 				bool begin=false;
@@ -91,12 +72,16 @@ int main(int argc, char* argv[])
 					{
 						number+=mystack.top()*n;
 						n*=10;
-						//begin=true;
+						begin=true;
 						mystack.pop();
 
 					}
 					if(mystack.top()==LEFT || mystack.top()==RIGHT )
 					{
+						if (!begin) 
+						{
+							good=false;
+						}
 						while(mystack.top()==LEFT)
 						{
 							mystack.pop();
@@ -116,27 +101,47 @@ int main(int argc, char* argv[])
 						mystack.pop();
 					}
 				}
+				int oper=0;
 				mystack.pop(); //pop open paren
 				while(!calc.empty())
 				{
+					if(calc.size()==1)
+					{
+						good=false;
+					}
 					int topper=calc.top();
 					calc.pop();
 					if(calc.top()==MULT)
 					{
-						calc.pop();
-						topper*=calc.top();
+						oper++;
+						//check to see if two operands are together
+						if(oper<2)
+						{
+							calc.pop();
+							topper*=calc.top();
+						}
+						else good=false;
 						
 					}
 					if(calc.top()==ADD)
 					{
-						calc.pop();
-						topper+=calc.top();
+						oper++;
+						//check to see if two operands are together
+						if(oper<2)
+						{
+							calc.pop();
+							topper+=calc.top();
+						}
+						else good=false;
 					}
 					mystack.push(topper)
 					calc.pop();
 				}
 			}
-
+			if (!good)
+			{
+				std::cout<<"Malformed";
+			}
 
 		
 	}
