@@ -1,175 +1,274 @@
 #include <iostream>
 #include <ostream>
 #include <fstream>
+#include <sstream>
 #include "stackint.h"
+#include <string>
 #include "circular_list_int.h"
-
-void print (StackInt &stack)
-{
-	while(!stack.empty())
-	{
-		std::cout<<stack.top()<<std::endl;
-		stack.pop();
-	}
-	return;
-}
 
 
 int main(int argc, char* argv[])
 {
-	if(argc<2)
-	{
-		return -1;
-	}
-	std::ifstream infile;
-	infile.open(argv[1]);
+	if(argc<2){ return -1;}
+	//variables set to constance
 	const int OPEN_PAREN=-1;
 	const int CLOSED_PAREN=-2;
 	const int MULT=-3;
 	const int PLUS=-4;
 	const int LEFT=-5;
 	const int RIGHT=-6;
+	std::ifstream infile(argv[1]);
 	std::string s_line;
 	while(getline(infile,s_line))
 	{
-		bool good=false;
-		if(s_line.size()==0)
+		int size=s_line.size();
+		bool spacer=false;
+		
+		for(int i=0;i<size;i++)
+		{
+			if(!isspace(s_line[i]))
+			{
+				spacer=true;
+			}
+		}
+		if(!spacer)
 		{
 			continue;
 		}
-		StackInt syntax;
-		for(int i=0;i<s_line.size();i++)
+
+		std::string &sent=s_line;
+		char toomany;
+		std::stringstream ll(sent);
+		sent="";
+		while(ll>>toomany)
 		{
-			if(s_line[i]=='(')
-			{
-				syntax.push(OPEN_PAREN);
-			}
-			if(s_line[i]==')')
-			{
-				syntax.pop();
-				//continue;
-			}
-			if(syntax.empty())
-			{
-				good=true;
-			}
+			sent+=toomany;
 		}
-		//if(good)
-		//{	
-			StackInt mystack;
-			for(int i=0;i<s_line.size();i++)
+		bool bad=false;
+		int parents=0;
+		StackInt mystack;
+		std::stringstream ss(s_line);
+		char buffer;
+		while(ss>>buffer)
+		{
+			if(buffer=='(')
 			{
-				if(s_line[i]==' ') continue;
-				else if(s_line[i]=='(') mystack.push(OPEN_PAREN);
-				//if(s_line[i]==')') mystack.push(CLOSED_PAREN);
-				else if(s_line[i]=='*') mystack.push(MULT);
-				else if(s_line[i]=='+') mystack.push(PLUS);
-				else if(s_line[i]=='<') mystack.push(LEFT);
-				else if(s_line[i]=='>') mystack.push(RIGHT);
-				else if(s_line[i]==')')
+				mystack.push(OPEN_PAREN);
+				parents++;
+			}
+			else if(buffer=='*')
+			{
+				char next=ss.peek();
+				if(next=='+')
 				{
-					int n=1;
-					int number=0;
-					bool begin=false;
+					bad=true;
+					break;
+				}
+				else if(next=='*')
+				{
+					bad=true;
+					break;
+				}
+				mystack.push(MULT);
+			}
+			else if(buffer=='+')
+			{
+				char next=ss.peek();
+				if(next=='+')
+				{
+					bad=true;
+					break;
+				}
+				if(next=='*')
+				{
+					bad=true;
+					break;
+				}
+				mystack.push(PLUS);
+			}
+			else if(buffer=='>')
+			{
+				if(mystack.top()>-1 && mystack.top()<10 &&mystack.size()!=0)
+				{
+					bad=true;
+					break;
+				}
+				mystack.push(RIGHT);
+			}
+			else if(buffer=='<')
+			{
+				if(mystack.top()>-1 && mystack.top()<10 &&mystack.size()!=0)
+				{
+					bad=true;
+					break;
+				}
+				mystack.push(LEFT);
+			}
+			else if(buffer==')')
+			{
+				parents--;
+				if(mystack.top()<0)
+				{
+					bad=true;
+					break;
+				}
+				int topper=mystack.top();
+				mystack.pop();
+				if(mystack.top()==PLUS)
+				{
+					mystack.pop();
 					while(mystack.top()!=OPEN_PAREN)
 					{
-						while(mystack.top()>-1 && !mystack.empty())
+						if(mystack.top()>=0)
 						{
-							number+=mystack.top()*n;
-							n*=10;
-							begin=true;
-							mystack.pop();
-							std::cout<<number<<std::endl;
-						}
-						
-						if(mystack.top()==LEFT || mystack.top()==RIGHT )
-						{
-							if (!begin) 
-							{
-								good=false;
-								return -3;
-							}
-							while(mystack.top()==LEFT)
-							{
-								mystack.pop();
-								number*=2;
-							}
-							while(mystack.top()==RIGHT)
-							{
-								mystack.pop();
-								number/=2;
-							}
-						}
-						StackInt calc;
-						calc.push(number);
-						if(mystack.top()==MULT || mystack.top()==PLUS)
-						{
-							calc.push(mystack.top());
+							topper+=mystack.top();
 							mystack.pop();
 						}
-						int oper_m=0;
-						int oper_p=0;
-						mystack.pop(); //pop open paren
-						int topper=0;
-						while(!calc.empty())
+						else if(mystack.top()==MULT)
 						{
-							if(calc.size()==1)
-							{
-								good=false;
-							}
-							topper=calc.top();
-							calc.pop();
-							if(calc.top()==MULT)
-							{
-								oper_m++;
-								//check to see if two operands are together
-								if(oper_p==0)
-								{
-									calc.pop();
-									topper*=calc.top();
-								}
-								else {good=false;}
-								
-							}
-							if(calc.top()==PLUS)
-							{
-								oper_p++;
-								//check to see if two operands are together
-								if(oper_m==0)
-								{
-									calc.pop();
-									topper+=calc.top();
-								}
-								else {good=false;}
-							}
-							
-							//calc.pop();
+							bad=true;
+							break;
 						}
-						mystack.push(topper);
-					}	
+						else if(mystack.top()==PLUS)
+						{
+							mystack.pop();
+							if(mystack.top()==OPEN_PAREN)
+							{
+								bad=true;
+								break;
+							}
+						}
+					}
+					if(mystack.top()==OPEN_PAREN){mystack.pop();}
+					else if(mystack.empty())
+					{
+						bad=true;
+						break;
+					}
+				}
+				else if(mystack.top()==MULT)
+				{
+					mystack.pop();
+					while(mystack.top()!=OPEN_PAREN)
+					{
+						if(mystack.top()>=0)
+						{
+							topper*=mystack.top();
+							mystack.pop();
+						}
+						else if(mystack.top()==PLUS)
+						{
+							bad=true;
+							break;
+						}
+						else if(mystack.top()==MULT)
+						{
+							mystack.pop();
+							if(mystack.top()==OPEN_PAREN)
+							{
+								bad=true;
+								break;
+							}
+						}
+					}
+					if(mystack.top()==OPEN_PAREN) {mystack.pop();}
 				}
 				else
 				{
-					int num=s_line[i]-'0';
-					mystack.push(num);
+					bad=true;
+					break;
 				}
+				while(mystack.top()==LEFT || mystack.top()==RIGHT)
+				{
+					if(mystack.top()==LEFT)
+					{
+						mystack.pop();
+						topper*=2;
+					}
+					else if(mystack.top()==RIGHT)
+					{
+						mystack.pop();
+						topper/=2;
+					}
+				}
+				mystack.push(topper);
 			}
-		std::cout<<mystack.top()<<std::endl;
-		//}	
-		if(!good)
+			else if(buffer<='9' && buffer>='0')
+			{
+				char next=ss.peek();
+				int convert=buffer-'0';
+				while(next<='9'&&next>='0')
+				{
+					convert*=10;
+					convert+=next-'0';
+					char get_rid;
+					ss>>get_rid;
+					next=ss.peek();
+				}
+				while(mystack.top()==RIGHT || mystack.top()==LEFT)
+				{
+					if(mystack.top()==LEFT)
+					{
+						mystack.pop();
+						convert*=2;
+					}
+					else if(mystack.top()==RIGHT)
+					{
+						mystack.pop();
+						convert/=2;
+					}
+				}
+				mystack.push(convert);
+			}
+			//for jonathan's case where there are letters after
+			//an expression, this turns it malform
+			else 
+			{
+				bad=true;
+			}
+
+		}
+		if(mystack.size()!=1)
+		{
+			bad=true;
+		}
+		if(parents!=0)
+		{
+			bad=true;
+		}
+		//the following are for cases when there
+		//is an operation or '(', ')' left in stack
+		if(mystack.top()==CLOSED_PAREN)
+		{
+			bad=true;
+		}
+		if(mystack.top()==OPEN_PAREN)
+		{
+			bad=true;
+		}
+		if(mystack.top()==MULT)
+		{
+			bad=true;
+		}
+		if(mystack.top()==PLUS)
+		{
+			bad=true;
+		}
+		if(mystack.top()==LEFT)
+		{
+			bad=true;
+		}
+		if(mystack.top()==RIGHT)
+		{
+			bad=true;
+		}
+		if(bad)
 		{
 			std::cout<<"Malformed"<<std::endl;
+			continue;
 		}
+		std::cout<<mystack.top()<<std::endl;
 	}
+	return 0;
 }
-
-
-
-
-
-
-
-
-
-
 
