@@ -5,4 +5,10 @@ Constant time for enqueue since we know that we are always just pushing to the t
 Part C
 For enqueue it is still constant time because enqueue just pushes (x) and that takes constant time Θ(1). For dequeue, each push takes Θ(n) for each element so that times the number of elements n, plus the pop at the end will take a total of Θ(n^2).
 
-Probblem 3.
+Problem 3.
+PartA:
+	For the outer for loop, because we are going from 0 to n, the run time of the outer for loop is O(n). If we are looking at worst case scenario, the inner for loop could be called every time given that the A[i] is zero for every instance of i. Looking at the inner for loop, it goes from 0 to n but i doubles each time meaning that the runtime for the inner for-loop is 0(log base2 n )so just 0(logn). Therefore the overall running time is 0(nlogn).
+Part B:
+	If we begin with i=1; then the second outer loop gets trigger which will run at n-1 since we begin with 1 and not 0. Since the first instance i=1, then the if statement is going to trigger causing the inner for-loop to run 0(logn). For i=2, the second outer for-loop runs n-2 times now that we go from 2 to n. The if statement will then trigger every other time when the j is even meaning that the number of times executed will be (n-2)/2*log(n). Just from looking at the first two instances of i, we see that the runtime can be looked at as ((n-i)/i)*logn. Drawing that the harmonic series is found here, we get the total runtime of part b is 0(n*(log^2)n).
+Part C: 
+	Here the size is set to 10 so the if statement where allocation happens will trigger once. Then if we enter the if statement, i operations are ran where i is the
