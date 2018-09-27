@@ -27,6 +27,8 @@ class StackInt {
    */
   void pop();
 
+  int size ();
+
  private:
   /** 
    * Single data member of the Stack.
