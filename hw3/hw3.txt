@@ -1,5 +1,7 @@
-Problem 2 Part B
-
+Problem 2
+Part A
+	I have attached a file to my github which shows the answers to Part A.  
+Part B
 Constant time for enqueue since we know that we are always just pushing to the top of the stack. For dequeue, the worst case scenario is that stack 2 is empty so we pop the entire stack1, which takes n times. Then it takes n times to push into stack 2, and then pop off the top of stack two, The overal worst case running time is Θ(n).
 
 Part C
@@ -11,4 +13,6 @@ PartA:
 Part B:
 	If we begin with i=1; then the second outer loop gets trigger which will run at n-1 since we begin with 1 and not 0. Since the first instance i=1, then the if statement is going to trigger causing the inner for-loop to run 0(logn). For i=2, the second outer for-loop runs n-2 times now that we go from 2 to n. The if statement will then trigger every other time when the j is even meaning that the number of times executed will be (n-2)/2*log(n). Just from looking at the first two instances of i, we see that the runtime can be looked at as ((n-i)/i)*logn. Drawing that the harmonic series is found here, we get the total runtime of part b is 0(n*(log^2)n).
 Part C: 
-	Here the size is set to 10 so the if statement where allocation happens will trigger once. Then if we enter the if statement, i operations are ran where i is the
+	Here the size is set to 10 so the if statement where allocation happens will trigger once. Then if we enter the if statement, i operations are ran where i is the size at that point since the if statement is i==size. Every instance that we allocate, the newsize increases by 10. When the array fills up after 10 spots, delete it and create a bigger array. Since we are alloating every 10 spots, it becomes the summation from 1 to n/10 of 10i which becomes n. The outer loop runs n times as well so overall is 0(n^2).
+Part D:
+	Here the newsize is constantly increasing 2*size so since it is reallocating every time the array fills up and we increase the size by a factor of 2, the run time for that is log(n). We go through the array 0(i) times where i is number of elements in the array which leads to 0(1). We then get the summation from i=1 to log(n) for 2^i since we are always increasing newsize by a factor of 2. This then becomes 0(2^log(n)+1) so it just simplifies to 0(n).
