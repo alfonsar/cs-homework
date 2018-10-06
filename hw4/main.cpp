@@ -26,5 +26,9 @@ int main(int argc, char*argv[])
 	int handsize,seed;
 	std::string tiles, board,dictionary;
 	readFile(argv[1],handsize,tiles,dictionary,board,seed);
+	std::cout<<"How many players?"<<std::endl;
+	int numofPlayers;
+	std::cin>>numofPlayers;
 
+	return 0;
 }

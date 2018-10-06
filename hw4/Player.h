@@ -69,7 +69,10 @@ public:
 
 	//Add more public/protected/private functions/variables here.
 
-};
+protected:
+	std::set<Tile*>hand;
+	std::string first;
+	int score; //score for players
 
 
 #endif /* PLAYER_H_ */

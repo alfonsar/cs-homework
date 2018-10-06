@@ -28,7 +28,7 @@ class Move
 {
 
 public:
-
+	Move();
 
 	/* Parses the given move m, and constructs the corresponding move subclass.
 	   m is assumed to be in the format described on the assignment sheet for a move command.
@@ -156,6 +156,12 @@ public:
 	void execute(Board & board, Bag & bag, Dictionary & dictionary);
 
 	//Add more public/protected/private functions/variables here.
+	bool correct(Board& board,Dictionary& dictionary);
+private:
+	size_t initialx;
+	size_t initialy;
+	std::string place_word;
+	int plays_attempted;
 
 };
 
