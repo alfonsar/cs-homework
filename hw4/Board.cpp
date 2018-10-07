@@ -32,8 +32,16 @@ Board::Board (std::string board_file_namey){
 	}
 }
 
+
+/* Returns a pointer to the Square object representing the
+   (y,x) position of the board. Indexing starts at 1 here.
+   This is needed only to display the board. */
+Square Board:: getSquare (size_t x, size_t y) const
+{
+	return boardgame[x][y];
+}
 bool Board::firstMove(){
-	if(boardgame[sx][sy].isOccupied()==1){return true;}
+	if(boardgame[sx][sy].isOccupied()==0){return true;}
 	return false;
 }
 size_t Board::getRows() const{

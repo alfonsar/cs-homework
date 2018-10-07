@@ -20,6 +20,7 @@
 #include "Player.h"
 #include "Bag.h"
 #include "Dictionary.h"
+#include "Board.h"
 
 // forward declaration to prevent circular includes
 class Board;
@@ -157,11 +158,13 @@ public:
 
 	//Add more public/protected/private functions/variables here.
 	bool correct(Board& board,Dictionary& dictionary);
+	void anotherAttempt();
 private:
 	size_t initialx;
 	size_t initialy;
 	std::string place_word;
 	int plays_attempted;
+	bool horiz;
 
 };
 

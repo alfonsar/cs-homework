@@ -59,13 +59,15 @@ public:
 	/* Returns a pointer to the Square object representing the
        (y,x) position of the board. Indexing starts at 1 here.
 	   This is needed only to display the board. */
-	Square * getSquare (size_t x, size_t y) const;
+	Square getSquare (size_t x, size_t y) const;
 
 	/* Returns the number of rows of the board.*/
 	size_t getRows() const;
 
 	/* Returns the number of columns of the board.*/
 	size_t getColumns() const;
+	size_t getsx();
+	size_t getxy();
 	bool firstMove();
 private:
 	std::vector<vector<Square>>boardgame;
