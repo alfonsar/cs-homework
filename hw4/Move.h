@@ -95,7 +95,10 @@ public:
 	/* Executes this move, whichever type it is.
 	   This may throw exceptions; students: it's up to you to
 	   decide (and document) what exactly it throws*/
-	void execute(Board & board, Bag & bag, Dictionary & dictionary);
+	void execute(Board & board, Bag & bag, Dictionary & dictionary)
+	{
+		std::cout<<"You now have these tiles: "<< getHandTiles()<<std::endl;
+	}
 
 	//Add more public/protected/private functions/variables here.
 
@@ -124,6 +127,7 @@ public:
 	void execute(Board & board, Bag & bag, Dictionary & dictionary);
 
 	//Add more public/protected/private functions/variables here.
+	
 
 };
 

@@ -68,7 +68,8 @@ public:
 	void addTiles (std::vector<Tile*> const & tilesToAdd);
 
 	//Add more public/protected/private functions/variables here.
-
+	friend class ExchangeMove;
+	friend class PlaceMove;
 protected:
 	std::set<Tile*>hand;
 	std::string first;

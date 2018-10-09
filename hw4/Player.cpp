@@ -26,7 +26,6 @@ Player::Player (std::string const & name, size_t maxTiles)
 	 */
 bool Player::hasTiles(std::string const & move, bool resolveBlanks) const
 {
-	resolveBlanks=false;
 	std::stringstream ss(move);
 	std::string movetype;
 	ss>>movetype;
@@ -112,7 +111,6 @@ std::set<Tile*> Player::getHandTiles() const
 	*/
 std::vector<Tile*> Player::takeTiles (std::string const & move, bool resolveBlanks)
 {
-	resolveBlanks=false;
 	std::stringstream ss(move);
 	std::string movetype;
 	ss>>movetype;
@@ -121,7 +119,21 @@ std::vector<Tile*> Player::takeTiles (std::string const & move, bool resolveBlan
 	{
 		std::string bunchofletters;
 		ss>>bunchofletters;
-	
+		std::vector<Tile*> return_tiles;
+		std::set<Tile*>::iterator it;
+		for(size_t i=0; i<move.size();i++)
+		{
+			for(it=hand.begin();it!=hand.end();++it)
+			{
+				if((*it)->getLetter()==move[i])
+				{
+					hand.erase(it);
+					return_tiles.push_back(*it);
+					break;
+				}
+			}
+		}
+		return return_tiles;
 		
 	}
 	//Place move
@@ -132,8 +144,22 @@ std::vector<Tile*> Player::takeTiles (std::string const & move, bool resolveBlan
 		std:: string c;
 		std:: string actualword;
 		ss>>dir>>r>>c>>actualword;
-		std::set<Tile*>copy=hand;
+		std::vector<Tile*> return_tiles;
 		std::set<Tile*>::iterator it;
+		for(size_t i=0; i<move.size();i++)
+		{
+			for(it=hand.begin();it!=hand.end();++it)
+			{
+				if((*it)->getLetter()==move[i])
+				{
+					hand.erase(it);
+					return_tiles.push_back(*it);
+					break;
+				}
+			}
+		}
+		return return_tiles;
 	
 	}
+
 }

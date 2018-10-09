@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Bag.h"
 #include "Dictionary.h"
+#include "Player.h"
 #include "Move.h"
 
 PlaceMove::PlaceMove (size_t x, size_t y, bool horizontal, std::string tileString, Player * p){
@@ -13,9 +14,12 @@ PlaceMove::PlaceMove (size_t x, size_t y, bool horizontal, std::string tileStrin
 	place_word=tileString;
 	horiz=horizontal;
 }
-
 void PlaceMove::correct(Board& board,Dictionary& dictionary)
 {
+	if(!hasTiles(place_word,1))
+	{
+		std::cout<<"Error: You do not have the necessary tiles"<<std::endl;
+	}
 	bool middle=false;
 	if(board.firstMove())
 	{
@@ -42,6 +46,7 @@ void PlaceMove::correct(Board& board,Dictionary& dictionary)
 			anotherAttempt();
 		}
 	}
+	//now we check for adjacency 
 	bool touching=false;
 	size_t len=place_word.size();
 	while(!touching)
@@ -88,6 +93,7 @@ void PlaceMove::correct(Board& board,Dictionary& dictionary)
 		std::cout<<"Error: Tiles are not touching"<<std::endl;
 		anotherAttempt();
 	}
+	//checks for out of bound moves
 	bool inbound=false;	
 	while(!inbound)
 	{
@@ -117,11 +123,13 @@ void PlaceMove::correct(Board& board,Dictionary& dictionary)
 			anotherAttempt();
 		}
 	}
+	/*
 	while(dictionary.isLegalWord(place_word)!=1)
 	{
 		std::cout<<"Error: Word not legal. Enter a valid move"<<std::endl;
 		anotherAttempt();
 	}
+	*/
 	bool isaWord=formingWords(gameboard,dictionary);
 	if(!isaWord)
 	{
@@ -153,7 +161,7 @@ bool PlaceMove:: formingWords(Board& board, Dictionary& dictionary, std::string 
 			{
 				possible_word+=board.getSquare(c_col,c_row)->getLetter();
 				c_row++;
-				if(c_row+1=initialy)
+				if(c_row+1==initialy)
 				{
 					possible_word+=move[index];
 					index++;
@@ -265,7 +273,6 @@ bool PlaceMove:: formingWords(Board& board, Dictionary& dictionary, std::string 
 	}
 
 }
-
 void PlaceMove::anotherAttempt()
 {
 	char direction;

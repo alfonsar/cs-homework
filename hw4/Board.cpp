@@ -29,11 +29,21 @@ Board::Board (std::string board_file_namey){
 			if(current=='t'){Wmult=3;}
 			if(i==sx&&j==sy){onit=1;}
 			else{onit=0;}
-			boardgame[i][j]= Square (Lmult,Wmult,onit);
+			boardgame[i][j]= new Square (Lmult,Wmult,onit);
 		}
 	}
 }
-
+Board:: ~Board()
+{
+	for(size_t i=0; i<sx;i++)
+	{
+		for(size_t j=0;j<sy;j++)
+		{
+			delete gameboard[i][j];
+		}
+	}
+	//delete gameboard[][];
+}
 
 /* Returns a pointer to the Square object representing the
    (y,x) position of the board. Indexing starts at 1 here.
@@ -60,4 +70,9 @@ size_t Board::getsx(){
 size_t Board::getsy(){
 	return sy;
 }
+std::vector<std::pair<std::string, unsigned int>> Board::getPlaceMoveResults(const PlaceMove &m) const
+{
+
+}
+
 
