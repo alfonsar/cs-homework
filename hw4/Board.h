@@ -70,7 +70,7 @@ public:
 	size_t getsy();
 	bool firstMove();
 private:
-	std::vector<std::vector<Square>>boardgame;
+	std::vector<std::vector<Square*>>boardgame;
 	size_t columns;
 	size_t rows;
 	size_t sx;
