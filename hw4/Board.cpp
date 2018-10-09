@@ -1,33 +1,35 @@
-#ifndef BOARD_H_
-#define BOARD_H_
-
 #include <string>
 #include <set>
 #include <map>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
 #include "Tile.h"
 #include "Square.h"
 #include "Move.h"
+#include "Board.h"
 #include "Dictionary.h"
-
+using namespace std;
 Board::Board (std::string board_file_namey){
-	ifstream infile(board_file_namey);
-	infile.open();
+	ifstream infile;
+	infile.open(board_file_namey);
 	infile>>rows>>columns>>sx>>sy;
 	
 	for(size_t i=0; i<rows;i++){
 		for(size_t j=0; j<columns;j++){
 			char current;
-			ifile>>current
+			infile>>current;
 			int Lmult=1;
 			int Wmult=1;
+			bool onit;
 			if(current=='2'){Lmult=2;}
 			if(current=='3'){Lmult=3;}
 			if(current=='d'){Wmult=2;}
 			if(current=='t'){Wmult=3;}
-			if(i==sx&&j==sy){Square yes(Lmult,Wmult,1);}
-			else{Square yes(Lmult,Wmult,0)}
-			boardgame[i][j]=yes;
+			if(i==sx&&j==sy){onit=1;}
+			else{onit=0;}
+			boardgame[i][j]= Square (Lmult,Wmult,onit);
 		}
 	}
 }
@@ -55,7 +57,7 @@ size_t Board::getColumns() const{
 size_t Board::getsx(){
 	return sx;
 }
-size_t Board::getxy(){
+size_t Board::getsy(){
 	return sy;
 }
 

@@ -1,6 +1,3 @@
-#ifndef MOVE_H_
-#define MOVE_H_
-
 #include <vector>
 #include <string>
 #include "Tile.h"

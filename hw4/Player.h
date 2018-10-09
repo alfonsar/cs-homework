@@ -74,5 +74,5 @@ protected:
 	std::string first;
 	int score; //score for players
 
-
+}
 #endif /* PLAYER_H_ */

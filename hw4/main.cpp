@@ -5,10 +5,10 @@
 #include <cstdlib>
 #include <stdexcept>
 
-void readFile(string file_name;int& hand, std::string&tilers, std::string& dict, std::string& boarders,int&seed){
-	ifstream infile(file_name);
+void readFile(std::string file_name,int& hand, std::string&tilers, std::string& dict, std::string& boarders,int&seed){
+	std::ifstream infile(file_name);
 	std::string line;
-	while(getline(infile,line)){
+	while(std::getline(infile,line)){
 		std:: stringstream ss(line);
 		std::string what;
 		ss>>what;

@@ -67,10 +67,10 @@ public:
 	/* Returns the number of columns of the board.*/
 	size_t getColumns() const;
 	size_t getsx();
-	size_t getxy();
+	size_t getsy();
 	bool firstMove();
 private:
-	std::vector<vector<Square>>boardgame;
+	std::vector<std::vector<Square>>boardgame;
 	size_t columns;
 	size_t rows;
 	size_t sx;

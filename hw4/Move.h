@@ -157,8 +157,9 @@ public:
 	void execute(Board & board, Bag & bag, Dictionary & dictionary);
 
 	//Add more public/protected/private functions/variables here.
-	bool correct(Board& board,Dictionary& dictionary);
+	void correct(Board& board,Dictionary& dictionary);
 	void anotherAttempt();
+	bool formingWords(Board& board, Dictionary& dictionary);
 private:
 	size_t initialx;
 	size_t initialy;
