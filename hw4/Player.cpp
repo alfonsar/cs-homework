@@ -5,10 +5,19 @@
 #include "Player.h"
 #include "Tile.h"
 
-Player::Player (std::string const & name, size_t maxTiles)
+Player::Player (std::string const & name, size_t maxTiles,Bag& bag)
 {
 	first=name;
 	score=0;
+	max=maxTiles;
+	//call the draw tiles which will draw tiles from bag
+	std::vector<Tile*> newSet=bag.drawTiles(max);
+	//we start the player off with a fresh new set of tiles at beginning of game
+	for(std::vector<Tile*>::iterator it =newSet.begin(); it!=newSet.end();++it)
+	{
+		hand.insert(*it);
+	}
+	
 }
 
 

@@ -15,7 +15,7 @@
 #include <string>
 #include <set>
 #include <vector>
-
+#include "Bag.h"
 #include "Tile.h"
 
 
@@ -26,7 +26,7 @@ public:
 	/* Constructor giving the player the given name, and setting their points to 0.
 	   Does not give the player any tiles.
 	*/
-	Player (std::string const & name, size_t maxTiles);
+	Player (std::string const & name, size_t maxTiles, Bag& bag);
 
 	/* Destructor for a player. Deletes all the tiles the player still has. */
 	~Player ();
@@ -72,8 +72,9 @@ public:
 	friend class PlaceMove;
 protected:
 	std::set<Tile*>hand;
+	size_t max;
 	std::string first;
-	int score; //score for players
+	size_t score; //score for players
 
 }
 #endif /* PLAYER_H_ */

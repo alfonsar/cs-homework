@@ -101,6 +101,8 @@ public:
 	}
 
 	//Add more public/protected/private functions/variables here.
+	private:
+	Player* player;
 
 };
 
@@ -127,7 +129,8 @@ public:
 	void execute(Board & board, Bag & bag, Dictionary & dictionary);
 
 	//Add more public/protected/private functions/variables here.
-	
+	private:
+		Player* player;
 
 };
 
@@ -164,12 +167,32 @@ public:
 	void correct(Board& board,Dictionary& dictionary);
 	void anotherAttempt();
 	bool formingWords(Board& board, Dictionary& dictionary);
+	size_t getX() const
+	{
+		return initialx;
+	}
+	size_t getY() const
+	{
+		return initialy;
+	}
+	std::string word() const
+	{
+		return place_word;
+	}
+	bool isHoriz() const
+	{
+		if(horiz){return true;}
+		return false;
+	}
+
 private:
 	size_t initialx;
 	size_t initialy;
 	std::string place_word;
 	int plays_attempted;
 	bool horiz;
+	std::vector<Tile*>take;
+	Player* player;
 
 };
 

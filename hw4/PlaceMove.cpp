@@ -13,16 +13,24 @@ PlaceMove::PlaceMove (size_t x, size_t y, bool horizontal, std::string tileStrin
 	initialy=y;
 	place_word=tileString;
 	horiz=horizontal;
+	player=p;
+	take=player->takeTiles(tileString,1);
 }
 void PlaceMove::correct(Board& board,Dictionary& dictionary)
 {
-	if(!hasTiles(place_word,1))
+	while(!(player->hasTiles(place_word,1))
 	{
 		std::cout<<"Error: You do not have the necessary tiles"<<std::endl;
+		anotherAttempt();
 	}
 	bool middle=false;
 	if(board.firstMove())
 	{
+		std::pair<size_t,size_t>center;
+		center=std::make_pair(initialx,initialy);
+		while(horiz && (initialx<))
+
+		/*
 		size_t middle_x=board.getsx();
 		size_t middle_y=board.getsy();
 
@@ -45,6 +53,7 @@ void PlaceMove::correct(Board& board,Dictionary& dictionary)
 			std::cout<<"Error: Middle space must be occupied. Enter a valid move"<<std::endl;
 			anotherAttempt();
 		}
+		*/
 	}
 	//now we check for adjacency 
 	bool touching=false;
@@ -130,6 +139,36 @@ void PlaceMove::correct(Board& board,Dictionary& dictionary)
 		anotherAttempt();
 	}
 	*/
+	//check for overlapping
+	bool ontop=true;
+	while(ontop)
+	{
+		if(horiz)
+		{
+			for(size_t i=initialx;i<initialx+place_word.size();i++)
+			{
+				if(board.getSquare(initialx,i)->isOccupied())
+				{
+					std::cout<<"Error: Overlapping another word."<<std::endl;
+					anotherAttempt();
+					continue;
+				}
+			}
+		}
+		else if (!horiz)
+		{
+			for(size_t i=initialx;i<initialx+place_word.size();i++)
+			{
+				if(board.getSquare(i,initialx)->isOccupied())
+				{
+					std::cout<<"Error: Overlapping another word"<<std::endl;
+					anotherAttempt();
+					continue;
+				}
+			}
+		}
+		ontop=false;
+	}
 	bool isaWord=formingWords(gameboard,dictionary);
 	if(!isaWord)
 	{
@@ -153,14 +192,18 @@ bool PlaceMove:: formingWords(Board& board, Dictionary& dictionary, std::string 
 		{
 			std::string possible_word="";
 			//if the top of a letter is occupied, it will keep going up till the top of the word
-			while(c_row>0 && board.getSquare(c_col,c_row-1)->isOccupied())
+			while(c_row-1>0 && board.getSquare(c_col-1,c_row-1)->isOccupied())
 			{
 				c_row--;
 			}
+			//now we will go all the way down the word 
 			while(c_row<board.getRows() && board.getSquare(c_col,c_row+1)->isOccupied())
 			{
+				//adding to word
 				possible_word+=board.getSquare(c_col,c_row)->getLetter();
 				c_row++;
+				//if the next spot is empty but where the placemove string is going to be placed
+				//then add from the player's hand
 				if(c_row+1==initialy)
 				{
 					possible_word+=move[index];
@@ -273,6 +316,11 @@ bool PlaceMove:: formingWords(Board& board, Dictionary& dictionary, std::string 
 	}
 
 }
+std::vector<Tile*> const & PlaceMove::tileVector() const
+{
+
+}
+
 void PlaceMove::anotherAttempt()
 {
 	char direction;
