@@ -159,58 +159,6 @@ std::vector<Tile*> Player::takeTiles (std::string const & move, bool resolveBlan
 	}
 	
 	
-	/*
-	std::stringstream ss(move);
-	std::string movetype;
-	ss>>movetype;
-	//Exchange move
-	if(!resolveBlanks)
-	{
-		std::string bunchofletters;
-		ss>>bunchofletters;
-		std::vector<Tile*> return_tiles;
-		std::set<Tile*>::iterator it;
-		for(size_t i=0; i<move.size();i++)
-		{
-			for(it=hand.begin();it!=hand.end();++it)
-			{
-				if((*it)->getLetter()==move[i])
-				{
-					hand.erase(it);
-					return_tiles.push_back(*it);
-					break;
-				}
-			}
-		}
-		return return_tiles;
-		
-	}
-	//Place move
-	else
-	{
-		std::string dir;
-		std:: string r;
-		std:: string c;
-		std:: string actualword;
-		ss>>dir>>r>>c>>actualword;
-		std::vector<Tile*> return_tiles;
-		std::set<Tile*>::iterator it;
-		for(size_t i=0; i<move.size();i++)
-		{
-			for(it=hand.begin();it!=hand.end();++it)
-			{
-				if((*it)->getLetter()==move[i])
-				{
-					hand.erase(it);
-					return_tiles.push_back(*it);
-					break;
-				}
-			}
-		}
-		return return_tiles;
-	
-	}
-	*/
 }
 void Player::erasefromHand(std::string const & move)
 {

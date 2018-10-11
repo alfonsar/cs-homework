@@ -77,6 +77,7 @@ public:
 	//Add more public/protected/private functions/variables here.
 	friend class ExchangeMove;
 	friend class PlaceMove;
+	friend class ConsolePrinter;
 protected:
 	//set that will keep tiles in player's hand
 	std::set<Tile*>hand;
