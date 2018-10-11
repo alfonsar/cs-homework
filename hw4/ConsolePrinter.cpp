@@ -247,7 +247,7 @@ void ConsolePrinter::printHand(Player const &player)
 {
 	const std::set<Tile *> tiles = player.getHandTiles();
 
-	const size_t maxTiles = player.getMaxTiles();
+	const size_t maxTiles = player.getMax();
 	const size_t numTiles = tiles.size();
 
 	// width and height of the blank area inside a square

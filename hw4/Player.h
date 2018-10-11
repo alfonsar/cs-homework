@@ -66,13 +66,23 @@ public:
 
 	// Adds all the tiles in the vector to the player's hand.
 	void addTiles (std::vector<Tile*> const & tilesToAdd);
+	//erases tiles from hand
+	void erasefromHand(std::string const & move);
+	//get function to get handsize
+	size_t getMax() const;
+	//get function to get name of player
+	std::string firstName() const;
+
 
 	//Add more public/protected/private functions/variables here.
 	friend class ExchangeMove;
 	friend class PlaceMove;
 protected:
+	//set that will keep tiles in player's hand
 	std::set<Tile*>hand;
+	//hand size
 	size_t max;
+	//name of player
 	std::string first;
 	size_t score; //score for players
 

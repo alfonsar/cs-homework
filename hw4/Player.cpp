@@ -86,6 +86,15 @@ bool Player::hasTiles(std::string const & move, bool resolveBlanks) const
 		return true;
 	}
 }
+size_t Player::getMax() const
+{
+	return max;
+}
+std::string Player::firstName() const
+{
+	return first;
+}
+
 // Adds all the tiles in the vector to the player's hand.
 void Player::addTiles (std::vector<Tile*> const & tilesToAdd)
 {
@@ -94,14 +103,8 @@ void Player::addTiles (std::vector<Tile*> const & tilesToAdd)
 	{
 		hand.insert(tilesToAdd[i]);
 	}
-	/*
-	std::vector<Tile*>::iterator it;
-	for(it=tilesToAdd.begin();it!=tilesToAdd.end();++it)
-	{
-		hand.insert(*it);
-	}
-	*/
 }
+//get function to return hand
 std::set<Tile*> Player::getHandTiles() const
 {
 	return hand;
@@ -120,6 +123,43 @@ std::set<Tile*> Player::getHandTiles() const
 	*/
 std::vector<Tile*> Player::takeTiles (std::string const & move, bool resolveBlanks)
 {
+	std::vector<Tile*> removingTiles;
+	for(size_t i=0; i<move.length();i++)
+	{
+		if(move[i]!='?')
+		{
+			std::toupper(move[i]);
+		}
+	}	
+	//if we do not have enough tiles we return the same hand
+	if(hasTiles(move,resolveBlanks))
+	{
+		return removingTiles;
+	}
+	else
+	{
+		std::set<Tile*>::iterator it;
+		for(size_t i=0; i<move.size();i++)
+		{
+			for(it=hand.begin();it!=hand.end();++it)
+			{
+				if((*it)->getLetter()==move[i])
+				{
+					//if we encounter a question mark, we skip to the next letter
+					if(move[i]=='?' && resolveBlanks)
+					{
+						i++;
+					}
+					hand.erase(it);
+					removingTiles.push_back(*it);
+					break;
+				}
+			}
+		}
+	}
+	
+	
+	/*
 	std::stringstream ss(move);
 	std::string movetype;
 	ss>>movetype;
@@ -169,6 +209,21 @@ std::vector<Tile*> Player::takeTiles (std::string const & move, bool resolveBlan
 		}
 		return return_tiles;
 	
+	}
+	*/
+}
+void Player::erasefromHand(std::string const & move)
+{
+	std::vector<Tile*> removal;
+	removal=takeTiles(move,1);
+	std::vector<Tile*>::iterator it1; //iterator for the vector of tiles
+	std::set<Tile*>::iterator it2; //iterator for the hand set
+	for(it1=removal.begin();it1!=removal.end();++it1)
+	{
+		for(it2=hand.begin();it2!=hand.end();++it2)
+		{
+			if((*it1)==(*it2)) {hand.erase(it2);}
+		}
 	}
 
 }

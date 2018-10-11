@@ -16,6 +16,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "Tile.h"
 #include "Player.h"
 #include "Bag.h"
@@ -97,7 +98,7 @@ public:
 	   decide (and document) what exactly it throws*/
 	void execute(Board & board, Bag & bag, Dictionary & dictionary)
 	{
-		std::cout<<"You now have these tiles: "<< getHandTiles()<<std::endl;
+
 	}
 
 	//Add more public/protected/private functions/variables here.
@@ -127,10 +128,12 @@ public:
 	   This may throw exceptions; students: it's up to you to
 	   decide (and document) what exactly it throws*/
 	void execute(Board & board, Bag & bag, Dictionary & dictionary);
+	friend class Player;
 
 	//Add more public/protected/private functions/variables here.
 	private:
 		Player* player;
+		std::string xtiles;
 
 };
 
@@ -166,7 +169,7 @@ public:
 	//Add more public/protected/private functions/variables here.
 	void correct(Board& board,Dictionary& dictionary);
 	void anotherAttempt();
-	bool formingWords(Board& board, Dictionary& dictionary);
+	bool formingWords(Board& board, Dictionary& dictionary, std::string move);
 	size_t getX() const
 	{
 		return initialx;
@@ -183,6 +186,9 @@ public:
 	{
 		if(horiz){return true;}
 		return false;
+	}
+	Player* getterPlayer() {
+		return player;
 	}
 
 private:
