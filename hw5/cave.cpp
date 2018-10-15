@@ -26,85 +26,15 @@ int main()
     for(int i=0; i<len;i++)
     {
         int j=i+1;
-        if(j<len)
+        if(j<len && (s[i]=='n' && s[j]=='s') || (s[i]=='s' && s[j]=='n') ||(s[i]=='w' && s[j]=='e')||(s[i]=='e' && s[j]==w))
         {
-            //checking for n
-            if(s[i]=='n')
-            {
-                if(s[j]!='s'&& input.top()!='s')
-                {
-                    input.push(i);
-                }
-                else if(s[j]!='s' && input.top()=='s')
-                {
-                    if(input.size()!=0)
-                    {
-                        input.pop();
-                    }
-                }
-                else if(s[j]=='s')
-                {
-                    i+=2;
-                }
-            }
-            //checking for s
-            if(s[i]=='s')
-            {
-                if(s[j]!='n'&& input.top()!='n')
-                {
-                    input.push(i);
-                }
-                else if (s[j]!='n' && input.top()=='n')
-                {
-                    if(input.size()!=0)
-                    {
-                        input.pop();
-                    }
-                }
-                else if(s[j]=='n')
-                {
-                    i+=2;
-                }
-            }
-            //checking for w
-            if(s[i]=='w')
-            {
-                if(s[j]!='e'&& input.top()!='e')
-                {
-                    input.push(i);
-                }
-                else if (s[j]!='e' && input.top()=='e')
-                {
-                    if(input.size()!=0)
-                    {
-                        input.pop();
-                    }
-                }
-                else if(s[j]=='e')
-                {
-                    i+=2;
-                }
-            }
-            //checking for e
-            if(s[i]=='e')
-            {
-                if(s[j]!='w'&& input.top()!='w')
-                {
-                    input.push(i);
-                }
-                else if (s[j]!='w' && input.top()=='w')
-                {
-                    if(input.size()!=0)
-                    {
-                        input.pop();
-                    }
-                }
-                else if(s[j]=='w')
-                {
-                    i+=2;
-                }
-            }
+        	i++;
         }
+        else 
+        {
+        	
+        }
+
     }
     if(input.size()==0&& s.length()>1)
     {
