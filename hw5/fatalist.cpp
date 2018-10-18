@@ -1,5 +1,6 @@
 #include<vector>
 #include<utility>
+#include<algorithm>
 #include<iostream>
 
 bool sortinrev(const std::pair<int,int> &a,const std::pair<int,int> &b) 
