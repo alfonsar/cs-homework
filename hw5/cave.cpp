@@ -57,6 +57,10 @@ int main()
                 {
                     input.pop();
                 }
+                else 
+                {
+                	input.push(s[i]);
+                }
             }
             //if none of the above cases are true, we push onto stack
             else
