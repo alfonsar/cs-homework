@@ -53,8 +53,7 @@ int main()
             {
                 //if we look at i and check i+1 and it is not complementary, we look at the stack
                 //and check to see if the top is its complementary
-                if( (s[i]=='n' && input.top()=='s') || (s[i]=='s' && input.top()=='n') || 
-                (s[i]=='e' && input.top()=='w') || (s[i]=='w' && input.top()=='e'))
+                if( (s[i]=='n' && input.top()=='s') || (s[i]=='s' && input.top()=='n') || (s[i]=='e' && input.top()=='w') || (s[i]=='w' && input.top()=='e'))
                 {
                     input.pop();
                 }
