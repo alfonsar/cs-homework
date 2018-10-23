@@ -11,17 +11,24 @@ int main()
     //prompt user for string
     std::cout<<"Enter a string"<<std::endl;
     std::cin>>s;
+    int len=s.length();
     //will check to make sure string is valid
-    for(int i=0; i<s.length();i++)
+    for(int i=0; i<len;i++)
     {
         //if these letters are entered, do nothin
         if(s[i]=='s'||s[i]=='n'||s[i]=='e'||s[i]=='w')
         {}
+        else if(s[i]==' ')
+        {
+            std::cout<<"Invalid"<<std::endl;
+            return -1;
+        }
         //if other letters are entered, then string is invalid
         else 
         {
             std::cout<<"Invalid"<<std::endl;
-            return -1;        }
+            return -1;       
+         }
 
     }
     //if an odd number of characters in the string is given, then 
@@ -30,7 +37,7 @@ int main()
     {
         rolled=false;
     }
-    int len=s.length();
+    
     for(int i=0; i<len;i++)
     {
         int j=i+1;
