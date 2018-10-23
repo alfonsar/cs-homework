@@ -10,7 +10,8 @@ int main()
     std::stack<char>input;
     //prompt user for string
     std::cout<<"Enter a string"<<std::endl;
-    std::cin>>s;
+    //std::cin>>s;
+    getline(std::cin,s);
     int len=s.length();
     //will check to make sure string is valid
     for(int i=0; i<len;i++)
@@ -18,11 +19,6 @@ int main()
         //if these letters are entered, do nothin
         if(s[i]=='s'||s[i]=='n'||s[i]=='e'||s[i]=='w')
         {}
-        else if(s[i]==' ')
-        {
-            std::cout<<"Invalid"<<std::endl;
-            return -1;
-        }
         //if other letters are entered, then string is invalid
         else 
         {
@@ -72,10 +68,11 @@ int main()
     }
     //if the stack is empty and the string was 
     //greater than one character, roll is true
-    if(input.size()==0&& s.length()>1)
+    if(input.size()==0&& s.length()>=0)
     {
         rolled=true;
     }
+    
     if(rolled)
     {
         std::cout<<"Rolled up"<<std::endl;
