@@ -46,7 +46,8 @@ int main()
             {
                 //if we look at i and check i+1 and it is not complementary, we look at the stack
                 //and check to see if the top is its complementary
-                if( (s[i]=='n' && input.top()=='s') || (s[i]=='s' && input.top()=='n') || (s[i]=='e' && input.top()=='w') || (s[i]=='w' && input.top()=='e'))
+                if( (s[i]=='n' && input.top()=='s') || (s[i]=='s' && input.top()=='n') || 
+                (s[i]=='e' && input.top()=='w') || (s[i]=='w' && input.top()=='e'))
                 {
                     input.pop();
                 }
@@ -59,8 +60,8 @@ int main()
         }
 
     }
-    //if the stack is empty and the string was greater than one character
-    //roll is true
+    //if the stack is empty and the string was 
+    //greater than one character, roll is true
     if(input.size()==0&& s.length()>1)
     {
         rolled=true;
