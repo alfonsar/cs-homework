@@ -95,10 +95,12 @@ void many(std::vector<T>& myArray, int k, int beg, int end, Comparator comp)
 		{
 			if(placeHolder[j].second-placeHolder[j].first+1<k)
 			{
+				//calls selectionsort
 				selecSort(myArray, placeHolder[j].first, placeHolder[j].second,comp);
 			}
 			else
 			{
+				//calls the many function which does the multiple mergesort
 				many(myArray,k,placeHolder[j].first, placeHolder[j].second,comp);
 			}
 			merging(myArray,placeHolder,comp);
