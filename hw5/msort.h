@@ -14,6 +14,17 @@ template<class T, class Comparator>
 void sSort(std::vector<T>& myArray, int beg, int end, Comparator comp);
 */
 
+template<class T, class Comparator>
+void mergeSort(std::vector<T>& myArray, int k, Comparator comp)
+{
+	//establish the beginning as 0
+	int beg=0;
+	//have len store size
+	int len=myArray.size();
+	//establish the end of the vector
+	int end=len-1;
+	many(myArray,k,beg,end, comp);
+}
 //the function used to merge the partitions 
 template<class T, class Comparator>
 void merging(std::vector<T>&myArray, std::vector<std::pair<int,int> >&places, Comparator comp)
@@ -128,14 +139,3 @@ void selecSort(std::vector<T>& myArray, int beg, int end, Comparator comp)
 
 }
 
-template<class T, class Comparator>
-void mergeSort(std::vector<T>& myArray, int k, Comparator comp)
-{
-	//establish the beginning as 0
-	int beg=0;
-	//have len store size
-	int len=myArray.size();
-	//establish the end of the vector
-	int end=len-1;
-	many(myArray,k,beg,end, comp);
-}
