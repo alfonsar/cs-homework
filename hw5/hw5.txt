@@ -1,0 +1,5 @@
+Question 2: QuickSort
+2. Given the array [3,4,5,6,7,8,9,10,11,12,13,0], if we were to choose the pivot using the last element, then our pivot would be 0 which then the runtime would be o(n^2). The worst case scenario is when the pivot position only reduces the problem size by the smallest possible amount. Using the median of 3 to choose our pivot, we will always have the median, a value smaller than the median, and a value greater than the median. From this example the pivot using the median of three would give us left=3, right =0 and middle=8, then the pivot since those number in order are 0,3,8 and 3 is in the middle. This means the since 3 is the second smallest in the array, we will only reduce the partition by 2 integers.
+
+Question 4C: Mergesort Analysis
+4C.The runtime of the new k-way templated MergeSort is O(knlog(base k)n). If k=n, then the runtime of the templated MergeSort is O(n^2). The reason is that when k=n, then the runtime becomes O(n*n*log(n)) which becomes O(n^2log(n)) and since n^2 takes power ver log(n), the runtime becomes O(n^2).
