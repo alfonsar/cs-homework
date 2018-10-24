@@ -4,8 +4,10 @@
 using namespace std;
 
 int main() {
-  string s1 = "zebra";
-  string s2 = "yoyo";
+  string s1; 
+  string s2; 
+  s1 = "A";
+  s2 = "B";
   AlphaStrComp comp1;
   LengthStrComp comp2;
   NumStrComp comp3;
