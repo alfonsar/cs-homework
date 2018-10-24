@@ -3,67 +3,57 @@
 #include<algorithm>
 #include<iostream>
 
-bool sortinrev(const std::pair<int,int> &a,const std::pair<int,int> &b) 
+bool sortinrev(const std::pair<int,int> &m,const std::pair<int,int> &n) 
 { 
-    return (a.first > b.first); 
+    return (m.first > n.first); 
 } 
-bool sort2inrev(const std:: pair<int,int> &a, const std::pair<int,int>&b)
+bool sort2inrev(const std:: pair<int,int> &o, const std::pair<int,int>&p)
 {
-    return (a.second>b.second);
+    return (o.second>p.second);
 }
 bool FatalistHypothesis(std::vector<std::pair<int,int> > grades)
 {
+    //sort in descending order by 104 grades
     sort(grades.begin(),grades.end(),sortinrev);
-    bool asc=true;
-   // std::vector<std::pair<int,int> > ::iterator it;
+    //check to see if the 170 grades are also in descending
+    bool des=true;
     int len=grades.size();
     for(int i=0; i<len;i++)
     {
         if(i+1<len)
         {
+            //since it is sorted in descending order by 104 grades
+            //if grades[i].second <grades[i+1].second, the hypothesis is wrong
             if(grades[i].second<grades[i+1].second)
             {
-                asc=false;
+                des=false;
             }
         }
     }
-    bool asc2=true;
+    //check to see if 104 grades are also in descending order
+    bool des2=true;
+    //we now sort 170 grades in descending order
     sort(grades.begin(),grades.end(),sort2inrev);
     for(int i=0; i<len;i++)
     {
         if(i+1<len)
         {
+            //since it is sorted in descedning order by 170 grades
+            //if grades[i].first< grades[i+1].first the hypothesis is wrong
             if(grades[i].first<grades[i+1].first)
             {
-                asc2=false;
+                des2=false;
             }
         }
     }
-    if(asc && asc2)
+    //if both are true, then hypothesis is true
+    if(des && des2)
     {
         return 1;
     }
+    //otherwise return false
     return 0;
 }
 
 
 
-int main()
-{
-    /*
-    int arr1[]={3,2,1,4};
-    int arr2[]={1,2,6,7};
-   std::vector<std::pair<int,int> > num;
-    for(int i=0;i<4;i++)
-    {
-        num.push_back(std::make_pair(arr1[i],arr2[i]));
-    }
-    sort(num.begin(),num.end(),sortinrev);
-    int len=num.size();
-    for(int i=0;i<len;i++)
-    {
-        std::cout<<"Pair:"<<i<<" "<<num[i].first<<" "<<num[i].second<<std::endl;
-    }
-    */
-return 0;
-}
