@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     infile.open(argv[1]);
     int columns, rows, numLetters;
     //read in the number of letters, rows, columns
-    infile>>numLetters>>columns>>rows;
+    infile>>numLetters>>rows>>columns;
     //create a 2d vector to visualize graph
     std::vector<std::vector<char> > graph;
     //we now resize the 2d vector to the appropriate lengths
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
                 //increase the country's size
                 currentCountry++;
             }
-            else if(graph[c_row+1][c_col]!=checker && (isVisited.find(rowBelow)==isVisited.end() && !flag))
+            else if(graph[c_row+1][c_col]!=checker && (isVisited.find(rowBelow)==isVisited.end()) && !flag)
             {
                 flag=true;
                 //if its a different letter, we are going to flag it and store the next column and row
@@ -145,6 +145,7 @@ int main(int argc, char* argv[])
             {
                 biggestCountry=currentCountry;
             }
+            currentCountry = 0;
             flag=false;
             c_col=n_col;
             c_row=n_row;
