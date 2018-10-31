@@ -12,12 +12,14 @@ class MinHeap
       arry=d;
       size=0;
     }
-    ~MinHeap ();
+    ~MinHeap () {
+      
+    }
     /* adds the item to the heap, with the given priority. */
     void add (T item, int priority)
     {
       std::pair<T,int> add(item, priority);
-      items.push(add);
+      items.push_back(add);
       size++;
       heapUp();
     }
@@ -54,8 +56,8 @@ class MinHeap
     
     void swap(int indexA,int indexB)
     {
-      int temp= items[indexA];
-    items[indexA]=items[indexB];
+      std::pair<T,int> temp (items[indexA]);
+      items[indexA]=items[indexB];
       items[indexB]=temp;
     }
     void heapUp()
@@ -73,9 +75,10 @@ class MinHeap
       while(hasChild(index))
       {
        int smallest=getCindex(index);
+       int len=items.size();
        for(int i=1;i<=arry;i++)
        {
-         if(smallest+i>items.size()-1) break;
+         if(smallest+i>len-1) break;
          if(items[smallest+i].second<items[smallest].second)
          {
            smallest=smallest+i;
@@ -93,31 +96,41 @@ class MinHeap
       }
     }
 
+    //returns the parent's index given 
+    //the child's index
     int getPindex(int index)
     {
-    int pIndex= (index-index%arry)/arry;
-    return pIndex; 
+      int pIndex= (index-index%arry)/arry;
+      return pIndex; 
     }
+    //returns the child's index given
+    //the child's index
     int getCindex(int index)
     {
       int cIndex= index*arry+arry;
       return cIndex;
     }
+    //returns the parent's priority
     int getPPriority(int index)
     {
       return items[index-index%arry/arry].second;
     }
+    //returns the child's priority
     int getCPriority (int index)
     {
       return items[index*arry+arry].second;
     }
+    //checks to see if the node at index has a parent
     bool hasParent(int index)
     {
       return getPindex(index)>=0;
     }
+    //checks to see if the node at index has a child
     bool hasChild(int index)
     {
-      return getCindex(index)>=0;
+      //return getCindex(index)>=0;
+      if((getPindex(index)*arry+1)<(int)items.size()) return true;
+      return false;
     }
 
 private:

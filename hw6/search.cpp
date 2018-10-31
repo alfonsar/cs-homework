@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     isVisited.insert(first);
 
     int biggestCountry=-1;
-    int currentCountry=0;
+    int currentCountry=1;
     int n_row=0;
     int n_col=0;
     bool flag=false;
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
                 //increase the country's size
                 currentCountry++;
             }
-            else if(graph[c_row-1][c_col]!=checker && (isVisited.find(rowAbove)==isVisited.end()) &&!flag )
+            else if(graph[c_row-1][c_col]!=checker && (isVisited.find(rowAbove)==isVisited.end()))
             {   
                 flag=true;
                 //if a different letter, we are going flag it and store the next column and row 
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
                 //increase the country's size
                 currentCountry++;
             }
-            else if(graph[c_row+1][c_col]!=checker && (isVisited.find(rowBelow)==isVisited.end()) && !flag)
+            else if(graph[c_row+1][c_col]!=checker && (isVisited.find(rowBelow)==isVisited.end()))
             {
                 flag=true;
                 //if its a different letter, we are going to flag it and store the next column and row
@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
                 //increase the country's size
                 currentCountry++;
             }
-            else if(graph[c_row][c_col-1]!=checker && (isVisited.find(colLeft)==isVisited.end())&& !flag)
+            else if(graph[c_row][c_col-1]!=checker && (isVisited.find(colLeft)==isVisited.end()))
             {
                 flag=true;
                 //if its a different letter, we are going to flag it and store the next column and row
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
                 //increase the countries size
                 currentCountry++;
             }
-            else if(graph[c_row][c_col+1]!=checker && (isVisited.find(colRight)==isVisited.end())&& !flag)
+            else if(graph[c_row][c_col+1]!=checker && (isVisited.find(colRight)==isVisited.end()))
             {
                 flag=true;
                 //if its a different letter, we are going to flag it and store the next column and row 
@@ -137,18 +137,28 @@ int main(int argc, char* argv[])
                 n_row=c_row;
             }
         }
-        if(look.empty()&& flag)
+        if(look.empty())
         {
-            std::pair<int,int> add(n_row,n_col);
-            look.push(add);
-            if(currentCountry>biggestCountry) 
-            {
-                biggestCountry=currentCountry;
+            if (!flag) {
+            	if (currentCountry > biggestCountry) {
+            		biggestCountry = currentCountry;
+            	}
+
             }
-            currentCountry = 0;
-            flag=false;
-            c_col=n_col;
-            c_row=n_row;
+            else {
+	            std::pair<int,int> add(n_row,n_col);
+	            look.push(add);
+                isVisited.insert(add);
+	            if(currentCountry>biggestCountry) 
+	            {
+	                biggestCountry=currentCountry;
+	            }
+	            currentCountry = 1;
+	            flag=false;
+	            c_col=n_col;
+	            c_row=n_row;
+            }
+
         }   
     }
     std::cout<<biggestCountry<<std::endl;
