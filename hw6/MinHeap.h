@@ -100,14 +100,14 @@ class MinHeap
     //the child's index
     int getPindex(int index)
     {
-      int pIndex= (index-index%arry)/arry;
+      int pIndex= (index-1)/arry;
       return pIndex; 
     }
     //returns the child's index given
     //the child's index
     int getCindex(int index)
     {
-      int cIndex= index*arry+arry;
+      int cIndex= arry*index+1;
       return cIndex;
     }
     //returns the parent's priority
