@@ -30,7 +30,7 @@ class MinHeap
     {
       if(size==0)
       {
-        throw std::out_of_range("Heap is empty");
+        throw std::out_of_range("Error: Heap is empty");
       }
       return items[0].first;
     }
@@ -41,7 +41,7 @@ class MinHeap
     {
       if(size==0)
       {
-        throw std::out_of_range("Heap is empty");
+        throw std::out_of_range("Error: Heap is empty");
       }
       items[0]=items[size-1];
       items.pop_back();
@@ -63,7 +63,7 @@ class MinHeap
     void heapUp()
     {
       int index=size-1;
-      while(hasParent(index)&& (getPPriority(index)> getCPriority(index)) )
+      while(hasParent(index)&& (getPPriority(index)> items[index].second) )
       {
         swap(getPindex(index), index);
         index=getPindex(index);
@@ -74,25 +74,12 @@ class MinHeap
       int index =0;
       while(hasChild(index))
       {
-       int smallest=getCindex(index);
-       int len=items.size();
-       for(int i=1;i<=arry;i++)
-       {
-         if(smallest+i>len-1) break;
-         if(items[smallest+i].second<items[smallest].second)
-         {
-           smallest=smallest+i;
-         }
-       } 
-       if(items[index]<items[smallest])
-       {
-         break;
-       }
-       else
-       {
-         swap(index,smallest);
-       }
-       index=smallest;
+        if(items[index].second <= items[getSmallest(index)].second) break;
+        else
+        {
+          swap(index, getSmallest(index));
+          index=getSmallest(index);
+        }
       }
     }
 
@@ -100,36 +87,61 @@ class MinHeap
     //the child's index
     int getPindex(int index)
     {
-      int pIndex= (index-1)/arry;
+      if(!hasParent(index))
+      {
+        return -1;
+      }
+      int pIndex= (index-(index%arry))/arry;
       return pIndex; 
     }
-    //returns the child's index given
-    //the child's index
-    int getCindex(int index)
-    {
-      int cIndex= arry*index+1;
-      return cIndex;
-    }
+  
     //returns the parent's priority
     int getPPriority(int index)
     {
-      return items[index-index%arry/arry].second;
+      if(!hasParent(index))
+      {
+        return -1;
+      }
+      return items[(index-(index%arry))/arry].second;
     }
-    //returns the child's priority
-    int getCPriority (int index)
+    //getter function for the smallest child
+    int getSmallest (int index)
     {
-      return items[index*arry+arry].second;
+      if(!hasChild(index))
+      {
+        return -1;
+      }
+      int cIndex= index*arry;
+      int smallestCP=items[cIndex].second;
+      int smallestCI=cIndex;
+      for(int k= cIndex+1; k<=cIndex+arry;k++)
+      {
+        if(k>=size) break;
+        if(items[k].second<smallestCP)
+        {
+          smallestCP=items[k].second;
+          smallestCI=k;
+        }
+      }
+      return smallestCI;
     }
     //checks to see if the node at index has a parent
     bool hasParent(int index)
     {
-      return getPindex(index)>=0;
+      if((index-index % arry)/arry>=0 && (index<size))
+      {
+        return true;
+      }
+      else 
+      {
+        return false;
+      }
     }
     //checks to see if the node at index has a child
     bool hasChild(int index)
     {
       //return getCindex(index)>=0;
-      if((getPindex(index)*arry+1)<(int)items.size()) return true;
+      if((index*arry+1)<size) return true;
       return false;
     }
 
