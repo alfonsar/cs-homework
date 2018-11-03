@@ -1,7 +1,13 @@
-all: search
+CC = g++
+CPPFLAGS = -g -Wall -std=c++11
+BIN_DIR = hw6
 
-search:search.cpp
-	g++ -g -Wall -std=c++11 search.cpp -o search
+all: $(BIN_DIR)
+
+search: search.cpp
+coloring: coloring.cpp
+
+.PHONY: clean
 
 clean:
-	rm -rf search
+rm -rf $(BIN_DIR)
