@@ -10,7 +10,6 @@ class MinHeap
     MinHeap (int d)
     {
       arry=d;
-      size=0;
     }
     ~MinHeap () {
       
@@ -20,7 +19,6 @@ class MinHeap
     {
       std::pair<T,int> add(item, priority);
       items.push_back(add);
-      size++;
       heapUp();
     }
     /* returns the element with smallest priority.  
@@ -28,7 +26,7 @@ class MinHeap
     Throws an exception if the heap is empty. */
     const T & peek () const
     {
-      if(size==0)
+      if(items.empty())
       {
         throw std::out_of_range("Error: Heap is empty");
       }
@@ -39,19 +37,19 @@ class MinHeap
     Throws an exception if the heap is empty. */
     void remove ()
     {
-      if(size==0)
+      if(items.empty())
       {
         throw std::out_of_range("Error: Heap is empty");
       }
-      items[0]=items[size-1];
+      items[0]=items[(int)items.size()-1];
       items.pop_back();
-      size--;
       heapDown();
     }
     /* returns true iff there are no elements on the heap. */
     bool isEmpty ()
     {
-      return (size==0);
+      if(items.empty()) return true;
+      return false;
     }
     
     void swap(int indexA,int indexB)
@@ -62,7 +60,7 @@ class MinHeap
     }
     void heapUp()
     {
-      int index=size-1;
+      int index=items.size()-1;
       while(hasParent(index)&& (getPPriority(index)> items[index].second) )
       {
         swap(getPindex(index), index);
@@ -71,7 +69,7 @@ class MinHeap
     }
     void heapDown()
     {
-      int index =0;
+      int index=0;
       while(hasChild(index))
       {
         if(items[index].second <= items[getSmallest(index)].second) break;
@@ -105,7 +103,7 @@ class MinHeap
       return items[(index-(index%arry))/arry].second;
     }
     //getter function for the smallest child
-    int getSmallest (int index)
+    int getSmallest(int index)
     {
       if(!hasChild(index))
       {
@@ -116,7 +114,7 @@ class MinHeap
       int smallestCI=cIndex;
       for(int k= cIndex+1; k<=cIndex+arry;k++)
       {
-        if(k>=size) break;
+        if(k>=(int)items.size()) break;
         if(items[k].second<smallestCP)
         {
           smallestCP=items[k].second;
@@ -128,7 +126,7 @@ class MinHeap
     //checks to see if the node at index has a parent
     bool hasParent(int index)
     {
-      if((index-index % arry)/arry>=0 && (index<size))
+      if((index-index % arry)/arry>=0 && (index<(int)items.size()))
       {
         return true;
       }
@@ -141,7 +139,7 @@ class MinHeap
     bool hasChild(int index)
     {
       //return getCindex(index)>=0;
-      if((index*arry+1)<size) return true;
+      if((index*arry+1)<(int)items.size()) return true;
       return false;
     }
 
@@ -149,7 +147,7 @@ private:
   // whatever you need to naturally store things.
   // You may also add helper functions here.
   int arry;
-  int size;
+  //pair will store the object along with 
   std::vector<std::pair<T, int> >items;
 };
 
