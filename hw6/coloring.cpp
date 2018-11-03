@@ -13,20 +13,24 @@ struct Country
 	std::set<Country*> neighbors;
 
 };
+//function to alphabetize the names of the nodes by letter
 bool comparing(Country lhs, Country rhs)
 {
     return (lhs.name<rhs.name);
 }
+//function mostly grabbed search.cpp that I wrote for hw6 problem 1
 void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> > graph, int rows, int columns)
 {
  
     int c_row;
     int c_col;
+    //iterate through the vector of countries
     std::vector<Country>::iterator it;
     for(it=country.begin();it!=country.end();++it)
     {
         std::queue<std::pair<int, int> >look;
         std::set< std::pair<int, int> >isVisited;
+       //will push the initial locations into queue and set
         look.push(it->loc);
         isVisited.insert(it->loc);
         char checker=it->name;
@@ -34,17 +38,15 @@ void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> >
         {
             c_row=look.front().first;
             c_col=look.front().second;
-            //char checker=graph[c_row][c_col];
             look.pop();
+            //check above
             if(c_row-1>=0)
             {
                 std::pair<int,int>rowAbove(c_row-1,c_col);
                 if(graph[c_row-1][c_col]==checker && isVisited.find(rowAbove)==isVisited.end())
                 {
                     look.push(rowAbove);
-                    isVisited.insert(rowAbove);
-                    //currentCountry++;
-        
+                    isVisited.insert(rowAbove);        
                 }
                 else if(graph[c_row-1][c_col]!=checker && (isVisited.find(rowAbove)==isVisited.end()))
                 {   
@@ -53,6 +55,7 @@ void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> >
                     {
                         if(graph[c_row-1][c_col]==it2->name)
                         {
+                           //inserting neighbors
                             it->neighbors.insert(&(*it2));
                             break;
                         }
@@ -60,6 +63,7 @@ void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> >
                    
                 }
             }
+            //check below
             if(c_row+1<rows)
             {
                 //create a pair containing the locations (row,column) of node
@@ -85,6 +89,7 @@ void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> >
                 
                 }
             }
+            //check left
             if(c_col-1>=0)
             {
                 //create a pair containing the locations (rows, column) of node
@@ -110,6 +115,7 @@ void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> >
                    
                 }
             }
+            //check right
             if(c_col+1<columns)
             {
                 //create a pair containing the locations (row, column) of node
@@ -139,8 +145,48 @@ void findNeighbors(std::vector<Country>&country, std::vector<std::vector<char> >
         }
     }
 }
-    
-
+//checking to see if the colors of the neighbors of the node are all different
+bool good(Country* c_country, int c_color)
+{
+    //now will iterate through our set of neighbors
+    std::set<Country*>::iterator it;
+    for(it=c_country->neighbors.begin();it!=c_country->neighbors.end();++it)
+    {
+        //if there are neigbors that share the same color
+        //as the parent, then not good
+        if((*it)->color==c_color)
+        {
+            return false;
+        }
+    }
+    return true;
+}   
+bool backing(Country* c_country, std::vector<Country>&entity)
+{
+    for(int i=1;i<=4;i++)
+    {
+        c_country->color=i;
+        if(good(c_country,c_country->color))
+        {
+            Country* next=nullptr;
+            int len =entity.size();
+            for(int k=0; k<len;k++)
+            {
+                if(entity[k].color==-1)
+                {
+                    next=&entity[k];
+                    break;
+                }
+            }
+            if(next==nullptr) return true;
+            if(backing(next, entity)) return true;
+            else continue;
+        }
+        else continue;
+    }
+    c_country->color=-1;
+    return false;
+}
 
 int main(int argc, char* argv[])
 {
@@ -163,6 +209,7 @@ int main(int argc, char* argv[])
     {
         for(int k=0; k<columns;k++)
         {   
+           //reading in the graph
             char let;
             infile>>let;
             graph[j][k]=let;
@@ -176,44 +223,41 @@ int main(int argc, char* argv[])
                     break;
                 }
             }
+            //if it encounters a new letter, make a
+            //struct for it
             if(newCountry)
             {
+                //create a new country
                 Country acountry;
+                //assign the name
                 acountry.name=graph[j][k];
+                //create a pair
                 std::pair<int,int> add (j,k);
+                //assign its indices using pairs
                 acountry.loc.first = add.first;
                 acountry.loc.second = add.second;
-                acountry.color=1;
+                //give it an initial value
+                acountry.color=-1;
                 vect.push_back(acountry);
             }
             
         }
     }
+    //used to assign the neighbors
     findNeighbors(vect,graph,rows,columns);
-    std::set<Country*>::iterator it;
-    for (size_t i = 0; i < vect.size(); i++) {
-        std::cout << vect[i].name << "'s neighbors are: ";
-        for (it = vect[i].neighbors.begin(); it != vect[i].neighbors.end(); ++it) {
-            std::cout << (*it)->name << " ";
-        }
-        std::cout << std::endl;
-    }
-    for(int i=0; i<vect.size();i++)
+    //backtracking implementation
+    backing(&vect[0],vect);
+    //used to alphabetize the vector of structs 
+    //by letter
+    std::sort(vect.begin(),vect.end(),comparing);
+    int sizer=vect.size();
+    //display the nodes and 
+    //corresponding colors
+    for(int k=0; k<sizer;k++)
     {
-        for(it=vect[i].neighbors.begin();it!=vect[i].neighbors.end();++it)
-        {   
-            if(vect[i].color==(*it)->color)
-            {
-                ((*it)->color)++;
-            }
-        }
+        std::cout<<vect[k].name<<" "<<vect[k].color<<std::endl;
     }
-   std::sort(vect.begin(),vect.end(),comparing);
-//    int len=vect.size();
-//     for(int i=0; i<len;i++)
-//     {
-//         std::cout<<vect[i].name<<" "<<vect[i].color<<std::endl;
-//     }
+
 
 	return 0;
 }
