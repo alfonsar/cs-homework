@@ -58,25 +58,29 @@ class MinHeap
       items[indexA]=items[indexB];
       items[indexB]=temp;
     }
+    //as Cote says, bubble up
     void heapUp()
     {
       int index=items.size()-1;
       while(hasParent(index)&& (getPPriority(index)> items[index].second) )
       {
-        swap(getPindex(index), index);
-        index=getPindex(index);
+        int pIndex=getPindex(index);
+        swap(pIndex, index);
+        index=pIndex;
       }
     }
+    //as Cote says, trickle down
     void heapDown()
     {
       int index=0;
       while(hasChild(index))
       {
-        if(items[index].second <= items[getSmallest(index)].second) break;
+        if(items[index].second<=items[getSmallest(index)].second) break;
         else
         {
-          swap(index, getSmallest(index));
-          index=getSmallest(index);
+          int cIndex=getSmallest(index);
+          swap(index,cIndex);
+          index=cIndex;
         }
       }
     }
@@ -126,7 +130,7 @@ class MinHeap
     //checks to see if the node at index has a parent
     bool hasParent(int index)
     {
-      if((index-index % arry)/arry>=0 && (index<(int)items.size()))
+      if(((index-index % arry)/arry>=0) && (index-index % arry)/arry<(int)items.size())
       {
         return true;
       }
