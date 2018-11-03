@@ -4,6 +4,7 @@
 #include<vector>
 #include <set>
 #include <queue>
+#include <algorithm>
 
 struct Country
 {
