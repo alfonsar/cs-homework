@@ -100,7 +100,7 @@ class MinHeap
       {
         return -1;
       }
-      return items[(index-(index%arry))/arry].second;
+      return items[getPindex(index)].second;
     }
     //getter function for the smallest child
     int getSmallest(int index)
