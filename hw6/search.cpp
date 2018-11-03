@@ -140,13 +140,17 @@ int main(int argc, char* argv[])
         if(look.empty())
         {
             if (!flag) {
-            	if (currentCountry > biggestCountry) {
+            	//assign current country biggest if 
+                //its greater than biggestCountry
+                if (currentCountry > biggestCountry) {
             		biggestCountry = currentCountry;
             	}
 
             }
             else {
-	            std::pair<int,int> add(n_row,n_col);
+	            //else make of pair of the next 
+                //letter found and push
+                std::pair<int,int> add(n_row,n_col);
 	            look.push(add);
                 isVisited.insert(add);
 	            if(currentCountry>biggestCountry) 
