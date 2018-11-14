@@ -208,6 +208,7 @@ class BinarySearchTree
   		void print() const;
   		bool isBalanced() const; //TODO
 		int height(Node<Key,Value> root);
+		void help_clear(Node<Key,Value>* root);
 
 	public:
 		/**
@@ -526,8 +527,8 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 		{
 			pre=pre->getRight();
 		}
-		node->getValue(pre->getValue());
-		node->getKey(pre->getKey());
+		node->getValue()=pre->getValue();
+		//node->getKey(pre->getKey());
 		Node<Key,Value>* parentals=pre->getParent();
 		parentals->setRight(NULL);
 	}
@@ -541,11 +542,16 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::clear()
 {
-	if(mRoot)
+	help_clear(mRoot);
+}
+template<typename Key, typename Value>
+void BinarySearchTree<Key,Value>::help_clear(Node<Key,Value>* root)
+{
+	if(root)
 	{
-		clear(mRoot->getLeft());
-		clear(mRoot->getRight());
-		delete mRoot;
+		help_clear(root->getLeft());
+		help_clear(root->getRight());
+		delete root;
 	}
 }
 
@@ -590,7 +596,7 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) con
 	return NULL;
 }
 template<typename Key, typename Value>
-int BinarySearchTree<Key,Value>::height(Node<Key,Value> root)  
+int BinarySearchTree<Key,Value>::height(Node<Key,Value>* root)  
 {
 	if (root == nullptr) return 0;
 
@@ -607,7 +613,7 @@ int BinarySearchTree<Key,Value>::height(Node<Key,Value> root)
 template<typename Key, typename Value>
 bool BinarySearchTree<Key, Value>::isBalanced() const
 {
-	int hight = height(mRoot);
+	int hight = height(&mRoot);
 	if (hight == -1) return false;
 	return true;
 }
