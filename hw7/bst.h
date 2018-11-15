@@ -598,62 +598,84 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 	else if(node->getRight()!=NULL && node->getLeft()!=NULL)
 	{
 		Node<Key,Value>* pre=node->getLeft();
+		if(pre->getRight()==NULL)
+		{
+			Node<Key,Value>* parental=node->getParent();
+			if(pre->getRight()==NULL) //pre->getLeft==NULL && 
+			{
+				//if node being removed is greater than parent(right)
+				if(parental->getKey()<node->getKey())
+				{
+					parental->setRight(pre);
+					pre->setParent(parental);
+					pre->setRight(node->getRight());
+					node->getRight()->setParent(pre);
+					delete node;
+					return;
+				}
+				//if node being removd is smaller than parent (left)
+				else
+				{
+					parental->setLeft(pre);
+					pre->setParent(parental);
+					pre->getRight()->setParent(pre);
+					delete node;
+					return;
+				}
+			}
+		}
+		//to find predecessor, you go once to the left child
+		//then continue onto the rightmost child
 		while(pre->getRight()!=NULL)
 		{
 			pre=pre->getRight();
 		}
-		Node<Key,Value>* parental=node->getParent();
-		if(pre->getRight()==NULL) //pre->getLeft==NULL && 
+
+		//again node is greater than parent (right)
+		if(node->getKey()>node->getParent()->getKey())
 		{
-			//if node being removed is smaller, than parent
-			if(parental->getKey()>node->getKey())
+			if(pre->getLeft()!=NULL)
 			{
-				parental->setLeft(node->getLeft());
-				pre->setParent(node->getParent());
-				node->getRight()->setParent(parental->getLeft());
-				pre->setRight(node->getRight());
-				delete node;
-				return;
+				pre->getParent()->setRight(pre->getLeft());
+				pre->getLeft()->setParent(pre->getParent());
 			}
 			else
 			{
-				parental->setRight(pre);
-				pre->setParent(parental);
-				node->getRight()->setParent(pre);
-				pre->setRight(node->getRight());
-				//pre->getLeft()->setParent(pre->getParent());
-				delete node;
-				return;
+				pre->getParent()->setRight(NULL);
 			}
+			node->getParent()->setRight(pre);
+			pre->setParent(node->getParent());
+			pre->setRight(node->getRight());
+			pre->setLeft(node->getLeft());
+			pre->getLeft()->setParent(pre);
+			pre->getRight()->setParent(pre);
+			delete node;
+			return;
 		}
-		/*
-		else if(pre->getRight()!=NULL)
+		//again node is less than parent (left)
+		else
 		{
-			if(parental->getKey()>node->getKey())
+			if(pre->getLeft()!=NULL)
 			{
-				parental->setLeft(pre);
-				pre->setParent(node->getParent());
-				pre->setRight(node->getRight());
-				node->getRight()->setParent(pre);
-				pre->setLeft(node->getLeft());
-				node->getLeft()->setParent(pre);
-				delete node;
-				return;
+				pre->getParent()->setRight(pre->getLeft());
+				pre->getLeft()->setParent(pre->getParent());
 			}
-			else if(parental->getKey()<node->getKey())
+			else
 			{
-				parental->setRight(pre);
-				pre->setParent(node->getParent());
-				pre->setRight(node->getRight());
-				node->getRight()->setParent(pre);
-				pre->setLeft(node->getLeft());
-				node->getLeft()->setParent(pre);
-				delete node;
-				return;
+				pre->getParent()->setRight(NULL);
 			}
+			node->getParent()->setLeft(pre);
+			pre->setParent(node->getParent());
+			pre->setRight(node->getRight());
+			pre->setLeft(node->getLeft());
+			pre->getLeft()->setParent(pre);
+			pre->getRight()->setParent(pre);
+			delete node;
+			return;
 		}
-		*/
+		
 	}
+	return;
 
 }
 
