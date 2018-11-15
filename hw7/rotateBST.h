@@ -6,12 +6,12 @@
 
 
 template <typename Key, typename Value>
-class rotateBST: public BinarySearchTree {
+class rotateBST: public BinarySearchTree<Key, Value>{
     public:
         bool sameKeys(const rotateBST& t2) const;
         void transform(rotateBST& t2) const;
     protected:
-        void leftRotate(Node<Key, Value>* r);
+        void leftRotate(Node<Key, Value>* c);
         void rightRotate(Node<Key, Value>* c);
 };
 
@@ -96,4 +96,36 @@ void rotateBST<Key,Value>::rightRotate(Node<Key,Value>* c)
         t2->setParent(c);
         c->setLeft(t2);
     }
+}
+template<typename Key, typename Value>
+void rotateBST<Key,Value>::InOrder(vector<int>& result, Node *start) 
+{
+
+    if(start->left != nullptr) {
+        InOrder(result, start->left);
+    }
+      result.push_back(start->val);
+    if(start->right != nullptr) {
+        InOrder(result, start->right);
+    }
+}
+
+template<typename Key, typename Value>
+bool rotateBST<Key,Value>::sameKeys(const rotateBST& t2) const
+{
+	std::vector<Key> first;
+	std::vector<Key> second;
+	Inorder(first,this->mRoot);
+	Inorder(second,t2.mRoot);
+	if(first==second)
+	{
+		return true;
+	}
+	return false;
+}
+template<typename Key, typename Value>
+void rotateBST<Key,Value>::transform(rotateBST& t2) const
+{
+	if(sameKeys(t2))
+
 }
