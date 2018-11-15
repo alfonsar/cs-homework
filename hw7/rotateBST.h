@@ -2,6 +2,7 @@
 #include <exception>
 #include <cstdlib>
 #include <utility>
+#include <vector>
 #include "bst.h"
 
 
@@ -10,6 +11,8 @@ class rotateBST: public BinarySearchTree<Key, Value>{
     public:
         bool sameKeys(const rotateBST& t2) const;
         void transform(rotateBST& t2) const;
+        void InOrder(std::vector<int>& result, Node<Key,Value>* start); 
+        void recursive(Node<Key,Value>* root);
     protected:
         void leftRotate(Node<Key, Value>* c);
         void rightRotate(Node<Key, Value>* c);
@@ -98,7 +101,7 @@ void rotateBST<Key,Value>::rightRotate(Node<Key,Value>* c)
     }
 }
 template<typename Key, typename Value>
-void rotateBST<Key,Value>::InOrder(vector<int>& result, Node *start) 
+void rotateBST<Key,Value>::InOrder(std::vector<int>& result, Node<Key,Value>* start) 
 {
 
     if(start->left != nullptr) {
@@ -126,6 +129,38 @@ bool rotateBST<Key,Value>::sameKeys(const rotateBST& t2) const
 template<typename Key, typename Value>
 void rotateBST<Key,Value>::transform(rotateBST& t2) const
 {
-	if(sameKeys(t2))
+	if(!sameKeys(t2))
+    {
+        return;
+    }
+    Node<Key,Value>* root=t2.mRoot;
+    //right rotation
 
+    while(root->getLeft()!=NULL)
+    {
+        t2.rightRotate(root);
+        root=root->getParent();
+        if(root->getLeft()==NULL && root->getRight()!=NULL)
+        {
+            root=root->getRight();
+        }
+        else if(root->getLeft()==NULL && root->getRight()==NULL)
+        {
+            break;
+        }
+    }
+    while(root->getParent()!=NULL)
+    {
+        root=root->getParent();
+    }
+    while(this->mRoot->getKey()!=root->getKey())
+    {
+        t2.leftRotate(root);
+        root=root->getParent();
+    }
+}
+template<typename Key, typename Value>
+void rotateBST<Key,Value>::recursive(Node<Key,Value>* root)
+{
+    
 }
