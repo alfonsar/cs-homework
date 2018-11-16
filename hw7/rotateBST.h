@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <utility>
 #include <vector>
+#include<algorithm>
 #include "bst.h"
 
 
@@ -11,7 +12,7 @@ class rotateBST: public BinarySearchTree<Key, Value>{
     public:
         bool sameKeys(const rotateBST& t2) const;
         void transform(rotateBST& t2) const;
-        void InOrder(std::vector<int>& result, Node<Key,Value>* start); 
+        void InOrder(std::vector<Key>& result, Node<Key,Value>* start)const; 
         void rrAll(Node<Key,Value>* root);
         void makethemEqual(Node<Key,Value>* ourRoot, Node<Key,Value>* c_root);
     protected:
@@ -29,6 +30,7 @@ void rotateBST<Key,Value>::leftRotate(Node<Key,Value>* c)
     }
     //b is now pointing to c's right child
     Node<Key,Value>* b=c->getRight();
+    b->setParent(c->getParent());
    if(c->getParent()!=NULL)
    {
        if(c->getKey()<c->getParent()->getKey())
@@ -70,18 +72,18 @@ void rotateBST<Key,Value>::rightRotate(Node<Key,Value>* c)
    {
        if(c->getKey()<c->getParent()->getKey())
        {
-           c->getParent();
+           c->getParent()->setLeft(b);
        }
        else
        {
-           c->getParent()->getRight(b);
+           c->getParent()->setRight(b);
        }
    }
    else
    {
        this->mRoot=b;
    }
-   c->setLeft(b->getRight);
+   c->setLeft(b->getRight());
    if(b->getRight()!=NULL)
    {
        b->getRight()->setParent(c);
@@ -90,15 +92,15 @@ void rotateBST<Key,Value>::rightRotate(Node<Key,Value>* c)
    b->setRight(c);
 }
 template<typename Key, typename Value>
-void rotateBST<Key,Value>::InOrder(std::vector<int>& result, Node<Key,Value>* start) 
+void rotateBST<Key,Value>::InOrder(std::vector<Key>& result, Node<Key,Value>* start) const
 {
 
-    if(start->left != nullptr) {
-        InOrder(result, start->left);
+    if(start->getLeft()!= nullptr) {
+        InOrder(result, start->getLeft());
     }
-      result.push_back(start->val);
-    if(start->right != nullptr) {
-        InOrder(result, start->right);
+      result.push_back(start->getKey());
+    if(start->getRight()!= nullptr) {
+        InOrder(result, start->getRight());
     }
 }
 
@@ -107,8 +109,8 @@ bool rotateBST<Key,Value>::sameKeys(const rotateBST& t2) const
 {
 	std::vector<Key> first;
 	std::vector<Key> second;
-	Inorder(first,this->mRoot);
-	Inorder(second,t2.mRoot);
+	InOrder(first,this->mRoot);
+	InOrder(second,t2.mRoot);
 	if(first==second)
 	{
 		return true;
@@ -129,7 +131,11 @@ void rotateBST<Key,Value>::transform(rotateBST& t2) const
         t2.rightRotate(root);
         root=root->getParent();
     }
-    t2.rrAll(root);
+    t2.rrAll(root->getRight());
+    while(root->getParent())
+    {
+    	root=root->getParent();
+    }
     //after rrALL is called, the root pointer
     //is pointing to null
     while(root!=this->mRoot)
@@ -154,6 +160,14 @@ void rotateBST<Key,Value>::rrAll(Node<Key,Value>* root)
        root=root->getParent();
    }
    rrAll(root->getRight());
+}
+template<typename Key, typename Value>
+void rotateBST<Key,Value>::leftAll(Node<Key,Value>* ourRoot, Node<KeyValue>* c_root)
+{
+	while(ourRoot->getKey()!=c_root->getKey())
+	{
+    
+	}
 }
 template<typename Key, typename Value>
 void rotateBST<Key,Value>::makethemEqual(Node<Key,Value>* ourRoot, Node<Key,Value>* c_root)
