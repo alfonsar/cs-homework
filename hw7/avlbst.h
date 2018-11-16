@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include<cmath>
 #include "rotateBST.h"
 
 /**
@@ -140,7 +141,160 @@ Begin implementations for the AVLTree class.
 template<typename Key, typename Value>
 void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 {
-    // TODO
+    //if tree is empty, change the root node from null 
+    // to input parameter key and value
+    if(this->mRoot==NULL)
+    {
+        dynamic_cast<AVLNode<K,V>*>(this->mRoot)=new AVLNode<Key,Value>(keyValuePair.first, keyValuePair.second, NULL);   
+    }
+    //if duplicate entry, overwrite with new value
+    AVLNode<Key,Value>* node=internalFind(keyValuePair.first);
+   if(node!=NULL)
+   {
+       node->setValue(keyValuePair.second);
+       return;
+   }
+    //if there isn't a duplicate set node point to root
+    node=this->mRoot;
+    while(node!=NULL)
+    {
+        if(keyValuePair.first<node->getKey())
+        {
+            if(node->getLeft()==NULL)
+            {
+                AVLNode<Key,Value>* another=new AVLNode<Key,Value>(keyValuePair.first,keyValuePair.second,NULL);
+                node->setLeft(another);
+                break;
+            }
+            else
+            {
+                node=node->getLeft();
+            }
+        }
+        else
+        {
+            if(node->getRight()==NULL)
+            {
+                AVLNode<Key,Value>* another=new AVLNode<Key,Value>(keyValuePair.first,keyValuePair.second,NULL);
+                node->setRight(another);
+                break;
+            }
+            else
+            {
+                node=node->getRight();
+            }
+        }
+    }
+    //now time to check for balance
+    AVLNode<Key,Value>* unbalanced=internalFind(node->getKey());
+    //uB stands for unbalanced 
+    bool uB=false;
+    while(!uB)
+    {
+        //will be checking if node is unbalanced 
+        if(unbalanced->getLeft()==NULL || unbalanced->getRight()==NULL)
+        {
+            if(unbalanced->getLeft()==NULL && unbalanced->getRight()!=NULL)
+            {
+                //if left is null, we will consider the height as 0
+                //so if the right side is not null and bigger than 1
+                //we know that it is unbalanced
+                if(abs(unbalanced->getRight()>1))
+                {
+                    uB=true;
+                }
+            }
+            //now if right was null but left child is not null
+            else if(unbalanced->getRight()==NULL && unbalanced->getLeft()!=NULL)
+            {
+                if(abs(unbalanced->getLeft()>1))
+                {
+                    uB=true;
+                }
+            }
+            //if is it leaf node, then it has no left or right subtree
+            else
+            {
+                unbalanced=unbalanced->getParent();
+            }
+        }
+        //if the node has two children, then we do regular abs value difference
+        else if(abs(unbalanced->getLeft()->getHeight() - unbalanced->getRight()->getHeight())>1) 
+        {
+            uB=true;
+        }
+        //if they are balanced, we traverse up to root 
+        else
+        {
+            unbalanced->setHeight(unbalanced->getHeight()+1);
+            unbalanced=unbalanced->getParent();
+        }
+    }
+    //if we find an unbalanced tree, we now do rotations to 
+    //balance the tree once again
+    if(uB)
+    {
+        AVLNode<Key,Value>* nZ=unbalanced;
+        if(unbalanced->getLeft()->getHeight() < unbalanced->getRight()->getHeight())
+        {
+            AVLNode<Key,Value> nY=unbalanced->getRight();
+            if(nY->getLeft()->getHeight()==nY->getRight()->getHeight())
+            {
+                //r zigzig
+                this->rotateLeft(nZ);
+                //now we gotta update the height
+                nZ->setHeight(nZ->getHeight()-2);
+            }
+            //right heavier than left is heavier
+            else if(nY->getLeft()->getHeigth()< nY->getRight()->getHeight())
+            {
+                
+                AVLNode<Key,Value> nX=unbalanced->getLeft();
+                //right rotate on , then left rotate on z
+                this->rotateRight(nY);
+                this->rotateLeft(nZ);
+                //now that we have rotated
+                //we fix the heights
+                nX->setHeight(nX->getHeight()+1);
+                nY->setHeight(nY->getHeight()-1);
+                nZ->setHeight(nZ->getHeight()-2);
+            }
+            //right right 
+            else
+            {
+                this->rotateLeft(nZ);
+                nZ->setHeight(nZ->getHeight()-2);
+            }
+
+        }
+        else
+        {
+            AVLNode<Key,Value>* nY=unbalanced->getLeft();
+            AVLNode<Key,Value>* nX=nY->getRight(); //check this !!!!!!!!!
+            if(nY->getLeft()->getHeight()==nY->getRight()->getHeight())
+            {
+                //zig-zig
+                this->rotateRight(nZ);
+                nZ->setHeight(nZ->getHeight()-2);
+            }
+            else if(nY->getLeft()->getHeight()<nY->getRight()->getHeight())
+            {
+                //left rotate on y, then right rotate on z
+                this->rotateLeft(nY);
+                this->rotateRight(nZ);
+                //adjust heigth
+                nX->setHeigth(nX->getHeight()+1); //check THIS!!!!!
+                nY->setHeigth(nY->getHeight()-1);
+                nZ->setHeigth(nZ->getHeight()-2);
+            }
+            else
+            {
+                this->rotateRight(nZ);
+                nZ->setHeight(nZ->getHeight-2);
+            }
+        }
+    }
+
 }
 
 /**
@@ -149,7 +303,7 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 template<typename Key, typename Value>
 void AVLTree<Key, Value>::remove(const Key& key)
 {
-   // TODO
+   
 }
 
 /*
