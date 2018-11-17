@@ -143,13 +143,18 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 {
     //if tree is empty, change the root node from null 
     // to input parameter key and value
+
     if(this->mRoot==NULL)
     {
-        dynamic_cast<AVLNode<K,V>*>(this->mRoot)=new AVLNode<Key,Value>(keyValuePair.first, keyValuePair.second, NULL);   
+        AVLNode<Key,Value>* another=new AVLNode<Key,Value>(keyValuePair.first, keyValuePair.second, NULL);   
+        this->mRoot=another;
+        return;
     }
     //if duplicate entry, overwrite with new value
-    AVLNode<Key,Value>* node=internalFind(keyValuePair.first);
-   if(node!=NULL)
+    Node<Key,Value>* checker;
+    checker=this->internalFind(keyValuePair.first);
+    AVLNode<Key,Value>* node= dynamic_cast<AVLNode<Key,Value>*>(checker);
+   if(!node)
    {
        node->setValue(keyValuePair.second);
        return;
@@ -199,7 +204,7 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
                 //if left is null, we will consider the height as 0
                 //so if the right side is not null and bigger than 1
                 //we know that it is unbalanced
-                if(abs(unbalanced->getRight()>1))
+                if(abs(unbalanced->getRight()->getHeight())>1)
                 {
                     uB=true;
                 }
@@ -207,7 +212,7 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
             //now if right was null but left child is not null
             else if(unbalanced->getRight()==NULL && unbalanced->getLeft()!=NULL)
             {
-                if(abs(unbalanced->getLeft()>1))
+                if(abs(unbalanced->getLeft()->getHeight()>1))
                 {
                     uB=true;
                 }
@@ -241,18 +246,18 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
             if(nY->getLeft()->getHeight()==nY->getRight()->getHeight())
             {
                 //r zigzig
-                this->rotateLeft(nZ);
+                this->leftRotate(nZ);
                 //now we gotta update the height
                 nZ->setHeight(nZ->getHeight()-2);
             }
             //right heavier than left is heavier
-            else if(nY->getLeft()->getHeigth()< nY->getRight()->getHeight())
+            else if(nY->getLeft()->getHeight()< nY->getRight()->getHeight())
             {
                 
                 AVLNode<Key,Value> nX=unbalanced->getLeft();
                 //right rotate on , then left rotate on z
-                this->rotateRight(nY);
-                this->rotateLeft(nZ);
+                this->rightRotate(nY);
+                this->leftRotate(nZ);
                 //now that we have rotated
                 //we fix the heights
                 nX->setHeight(nX->getHeight()+1);
@@ -262,7 +267,7 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
             //right right 
             else
             {
-                this->rotateLeft(nZ);
+                this->leftRotate(nZ);
                 nZ->setHeight(nZ->getHeight()-2);
             }
 
@@ -274,23 +279,23 @@ void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
             if(nY->getLeft()->getHeight()==nY->getRight()->getHeight())
             {
                 //zig-zig
-                this->rotateRight(nZ);
+                this->rightRotate(nZ);
                 nZ->setHeight(nZ->getHeight()-2);
             }
             else if(nY->getLeft()->getHeight()<nY->getRight()->getHeight())
             {
                 //left rotate on y, then right rotate on z
-                this->rotateLeft(nY);
-                this->rotateRight(nZ);
-                //adjust heigth
-                nX->setHeigth(nX->getHeight()+1); //check THIS!!!!!
-                nY->setHeigth(nY->getHeight()-1);
-                nZ->setHeigth(nZ->getHeight()-2);
+                this->leftRotate(nY);
+                this->rightRotate(nZ);
+                //adjust height
+                nX->setHeight(nX->getHeight()+1); //check THIS!!!!!
+                nY->setHeight(nY->getHeight()-1);
+                nZ->setHeight(nZ->getHeight()-2);
             }
             else
             {
-                this->rotateRight(nZ);
-                nZ->setHeight(nZ->getHeight-2);
+                this->rightRotate(nZ);
+                nZ->setHeight(nZ->getHeight()-2);
             }
         }
     }
