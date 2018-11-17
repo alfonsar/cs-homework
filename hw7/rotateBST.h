@@ -89,17 +89,21 @@ void rotateBST<Key,Value>::rightRotate(Node<Key,Value>* c)
    Node<Key,Value>*b=c->getLeft();
    Node<Key,Value>* cParental=c->getParent();
    b->setParent(c->getParent());
+   //if c has a parent
    if(cParental)
    {
+      //if c is left child
        if(c->getKey()<cParental->getKey())
        {
            cParental->setLeft(b);
        }
+       //or if c is right child
        else
        {
            cParental->setRight(b);
        }
    }
+   //if c has no parent so it was the root
    else
    {
        this->mRoot=b;
