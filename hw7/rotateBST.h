@@ -109,6 +109,7 @@ void rotateBST<Key,Value>::rightRotate(Node<Key,Value>* c)
        this->mRoot=b;
    }
    c->setLeft(b->getRight());
+   //adjust pointers
    if(b->getRight())
    {
        b->getRight()->setParent(c);
