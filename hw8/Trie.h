@@ -1,3 +1,4 @@
+#include <string>
 struct TrieNode {
   bool inSet;   // Is this node the end of a string in your dictionary?
   TrieNode *parent;
@@ -22,6 +23,10 @@ class TrieSet {
   TrieNode* prefix(std::string px); 
    /* returns the TrieNode matching the provided string, or returns NULL 
       if it is not the prefix of a word in the Trie. */
-private:
+    void makeChildren(TrieNode* root);
+    bool hasChildren(TrieNode* root);
+    void printSet();
+    void DFS(TrieNode* start); 
+    private:
     TrieNode* root;
 };

@@ -1,6 +1,9 @@
 #include "Trie.h"
 #include <string>
 #include <algorithm>
+#include<stack>
+#include<set>
+#include <iostream>
 
 void TrieSet::makeChildren(TrieNode* root)
 {
@@ -8,7 +11,7 @@ void TrieSet::makeChildren(TrieNode* root)
     {
         TrieNode* cNode= new TrieNode;
         cNode->inSet=false;
-        cNode->letter='/';
+        cNode->letter='&';
         cNode->parent=root;
         root->children[i]=cNode;
     }
@@ -25,9 +28,33 @@ TrieSet::TrieSet()
 }
 TrieSet::~TrieSet()
 {
+    //dfs 
 
 }
-bool TrieSet:: hasChildren(TrieNode* root)
+void TrieSet::DFS(TrieNode* start) 
+{
+	std::set<TrieNode*> isVisited;
+	isVisited.insert(start);
+	std::stack<TrieNode*>stack;
+	stack.push(start);
+	while(!stack.empty())
+	{
+		TrieNode*other=stack.top();
+		delete other;
+        stack.pop();
+		for(size_t i=0;i<26;i++)
+		{
+			//if(isVisited.find(other->children[i])==isVisited.end())
+			//{
+				//isVisited.insert(other->children[i]);
+				stack.push(other->children[i]);
+			//}
+		}
+
+	}
+	
+}
+bool TrieSet::hasChildren(TrieNode* root)
 {
     for(int i=0; i<26; i++)
     {
@@ -102,11 +129,15 @@ void TrieSet::remove(std::string input)
     trav->inSet=false;
     //if the node that we are at has no children,
     //we will deallocate all its children
-    //then we set that node to /
-    if(!hasChildren(trav))
+    //then we set that node to '/'
+    //if(!hasChildren(trav))
+    while(!hasChildren(trav) && trav->letter!='&')
     {
+        if(trav->inSet)
+        {
+            break;
+        }
         trav->letter='/';
-        trav->inSet=false;
         for(int i=0; i<26; i++)
         {
             delete trav->children[i];
@@ -136,4 +167,22 @@ TrieNode* TrieSet::prefix(std::string px)
         }
     }
     return trav;
+}
+void TrieSet::printSet() {
+//TrieNode* traverse = this->root;
+std::cout << this->root->letter << std::endl;
+for (size_t i = 0; i < 26; i++) {
+if (this->root->children[i]->letter != '$') std::cout << i << " " << root->children[i]->letter << " ";
+}
+std::cout << std::endl;
+for (size_t i = 0; i < 26; i++) {
+if (this->root->children[0]->children[i]->letter != '$') std::cout << i << " " << root->children[0]->children[i]->letter << " ";
+}
+std::cout << std::endl;
+for (size_t i = 0; i < 26; i++) {
+if (this->root->children[0]->children[3]->children[i]->letter != '$') std::cout << i << " " << root->children[0]->children[3]->children[i]->letter << " ";
+}
+
+std::cout << "___________________" << std::endl;
+
 }
