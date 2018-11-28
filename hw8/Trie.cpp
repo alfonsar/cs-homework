@@ -11,7 +11,7 @@ void TrieSet::makeChildren(TrieNode* root)
     {
         TrieNode* cNode= new TrieNode;
         cNode->inSet=false;
-        cNode->letter='&';
+        cNode->letter='/';
         cNode->parent=root;
         root->children[i]=cNode;
     }
@@ -20,7 +20,7 @@ TrieSet::TrieSet()
 {
     TrieNode* ourRoot= new TrieNode;
     ourRoot->inSet=false;
-    ourRoot->letter='/';
+    ourRoot->letter='&';
     ourRoot->parent=NULL;
 
     root=ourRoot;
@@ -28,7 +28,7 @@ TrieSet::TrieSet()
 }
 TrieSet::~TrieSet()
 {
-    //dfs 
+   clear(root);
 
 }
 void TrieSet::DFS(TrieNode* start) 
@@ -185,4 +185,15 @@ if (this->root->children[0]->children[3]->children[i]->letter != '$') std::cout 
 
 std::cout << "___________________" << std::endl;
 
+}
+void TrieSet::clear(TrieNode* root)
+{
+	if(root)
+	{
+		for(int i=0; i<26; i++)
+		{	
+			clear(root->children[i]);
+		}
+	}
+	delete root;
 }

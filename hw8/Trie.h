@@ -27,6 +27,7 @@ class TrieSet {
     bool hasChildren(TrieNode* root);
     void printSet();
     void DFS(TrieNode* start); 
+    void clear(TrieNode* root);
     private:
     TrieNode* root;
 };
