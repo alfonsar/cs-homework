@@ -5,23 +5,13 @@
 #include<set>
 #include <iostream>
 
-void TrieSet::makeChildren(TrieNode* root)
-{
-    for(int i=0; i<26; i++)
-    {
-        root->children[i]=NULL;
-        
-    }
-}
 TrieSet::TrieSet()
 {
     TrieNode* ourRoot= new TrieNode;
     ourRoot->inSet=false;
     ourRoot->letter='&';
     ourRoot->parent=NULL;
-
     root=ourRoot;
-    //makeChildren(ourRoot);
     for(int i=0; i<26;i++)
     {
     	ourRoot->children[i]=NULL;
@@ -29,32 +19,9 @@ TrieSet::TrieSet()
 }
 TrieSet::~TrieSet()
 {
-   clear(root);
-
+ 	clear(root);
 }
-void TrieSet::DFS(TrieNode* start) 
-{
-	std::set<TrieNode*> isVisited;
-	isVisited.insert(start);
-	std::stack<TrieNode*>stack;
-	stack.push(start);
-	while(!stack.empty())
-	{
-		TrieNode*other=stack.top();
-		delete other;
-        stack.pop();
-		for(size_t i=0;i<26;i++)
-		{
-			//if(isVisited.find(other->children[i])==isVisited.end())
-			//{
-				//isVisited.insert(other->children[i]);
-				stack.push(other->children[i]);
-			//}
-		}
 
-	}
-	
-}
 bool TrieSet::hasChildren(TrieNode* root)
 {
     for(int i=0; i<26; i++)
@@ -66,6 +33,14 @@ bool TrieSet::hasChildren(TrieNode* root)
     }
     return false;
 }
+void TrieSet::makeChildren(TrieNode* root)
+{
+    for(int i=0; i<26; i++)
+    {
+        root->children[i]=NULL;
+        
+    }
+}
 /* Add this string to the set.
 Do nothing if the string is already in the set. */
 void TrieSet::insert(std::string input)
@@ -74,8 +49,8 @@ void TrieSet::insert(std::string input)
     std::transform(input.begin(),input.end(),input.begin(),::tolower);
     //will create a pointer traverse through the tree
     TrieNode* trav=this->root;
-  
-    for(int i=0; i<input.size();i++)
+  	int len=input.length();
+    for(int i=0; i<len;i++)
     {
         //will grab the index of the input[i]
         int loc=input[i]-97;
@@ -113,27 +88,38 @@ void TrieSet::remove(std::string input)
     //make the input lowercase
     std::transform(input.begin(),input.end(),input.begin(),::tolower);
     //will create a pointer traverse through the tree
-    TrieNode* trav=prefix(root);
+    TrieNode* trav=prefix(input);
 
     //since we are deleting, set inSet to false
     trav->inSet=false;
-    //counter variable to traverse through the string 
     //if the node that we are at has no children,
     //we will deallocate all its children
     //then we set that node to '/'
-    //if(!hasChildren(trav))
-    while(!hasChildren(trav) && trav->letter!='&')
+    while(!hasChildren(trav))
     {
-       
-       	int loc=input[i]-97;
+      	//grab the location of letter 
+       	int loc=trav->letter-97;
+       	//if we reach root, break
+       	//because we do not delete root
+       	if(trav->letter=='&')
+       	{
+       		break;
+       	}
+        //if we land at a node whose inset is true
+        //then we will break cause we do not want to delete 
+        //a node belonging to another word
         if(trav->inSet)
         {
             break;
         }
-         TrieNode* parental=trav->parent;
-        // trav=NULL;
-        // trav=parental;
-        clear(trav);
+        //set a pointer to the parent of node 
+        //we want to delete
+        TrieNode* parental=trav->parent;
+        //set the child to null
+        parental->children[loc] = NULL;
+        //delete the node
+        delete trav;
+        //now we move up
         trav=parental;
     }
 }
@@ -143,14 +129,20 @@ TrieNode* TrieSet::prefix(std::string px)
     std::transform(px.begin(),px.end(),px.begin(),::tolower);
     //will create a pointer traverse through the tree
     TrieNode* trav=root;
-  
-    for(int i=0; i<px.size();i++)
+  	//grab the length of input
+  	int len=px.length();
+    for(int i=0; i<len;i++)
     {
         //will grab the index of the input[i]
         int loc=px[i]-97;
+        //will travel to the location if children
         trav=trav->children[loc];
+        //will traverse until 
+        //we reach end of the word
         if(trav==NULL)
         {
+            //if we reach null, then that means
+            //word does not exist and will return null
             return NULL;
         }
         else
@@ -158,36 +150,31 @@ TrieNode* TrieSet::prefix(std::string px)
             continue;
         }
     }
+    //return pointer to it
     return trav;
 }
-void TrieSet::printSet() {
-//TrieNode* traverse = this->root;
-std::cout << this->root->letter << std::endl;
-for (size_t i = 0; i < 26; i++) {
-if (this->root->children[i]!=NULL) std::cout << i << " " << root->children[i]->letter << " ";
-}
-std::cout << std::endl;
-for (size_t i = 0; i < 26; i++) {
-if (this->root->children[0]->children[i] !=NULL) std::cout << i << " " << root->children[0]->children[i]->letter << " ";
-}
-std::cout << std::endl;
-for (size_t i = 0; i < 26; i++) {
-if (this->root->children[0]->children[3]->children[i] != NULL) std::cout << i << " " << root->children[0]->children[3]->children[i]->letter << " ";
-}
+void TrieSet::printSet(TrieNode* node) {
 
-std::cout << "___________________" << std::endl;
-
-}
-void TrieSet::clear(TrieNode* root)
-{
-
-		for(int i=0; i<26; i++)
-		{	
-			if (root->children[i] != nullptr) 
-			{
-				clear(root->children[i]);
-			}
+	std::cout<<node->letter<<std::endl;
+	for(int i=0;i<26;i++)
+	{
+		if(node->children[i]!=nullptr)
+		{
+			printSet(node->children[i]);
 		}
+	}
 
-	delete root;
+}
+void TrieSet::clear(TrieNode* node)
+{
+	//recursive call to delete all nodes
+	//will be called in destructor
+	for(int i=0; i<26; i++)
+	{	
+		if (node->children[i] != nullptr) 
+		{
+			clear(node->children[i]);
+		}
+	}
+	delete node;
 }

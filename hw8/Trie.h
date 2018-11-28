@@ -23,11 +23,15 @@ class TrieSet {
   TrieNode* prefix(std::string px); 
    /* returns the TrieNode matching the provided string, or returns NULL 
       if it is not the prefix of a word in the Trie. */
-    void makeChildren(TrieNode* root);
-    bool hasChildren(TrieNode* root);
-    void printSet();
-    void DFS(TrieNode* start); 
-    void clear(TrieNode* root);
-    private:
-    TrieNode* root;
+  void makeChildren(TrieNode* root);
+   //will set all of its children of given parameter to NULL
+  bool hasChildren(TrieNode* root);
+   /*will check if there are children meaning at least
+      one is not NULL */
+  void printSet(TrieNode* node);
+  void clear(TrieNode* root);
+    //recursive call for deleting nodes. Will be called in destructor
+  TrieNode* root;
+  private:
+    
 };

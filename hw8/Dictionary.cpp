@@ -41,7 +41,12 @@ Dictionary::~Dictionary()
 
 bool Dictionary::isLegalWord(std::string const &word) const
 {
+	
 	std::string lowercaseWord(word);
 	makeLowercase(lowercaseWord);
-	return words.find(lowercaseWord) != words.end();
+	//return words.find(lowercaseWord) != words.end();
+	TrieNode* node=prefix(lowercaseWord);
+	if(node==NULL) return 0;
+	if(!node->inSet) return 0;
+	return 1;
 }
