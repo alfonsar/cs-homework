@@ -31,7 +31,6 @@ class TrieSet {
   void printSet(TrieNode* node);
   void clear(TrieNode* root);
     //recursive call for deleting nodes. Will be called in destructor
-  TrieNode* root;
   private:
-    
+      TrieNode* root;
 };
