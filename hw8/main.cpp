@@ -223,7 +223,9 @@ int main(int argc, char** argv)
 				std::cout << MOVE_PROMPT_COLOR << "Your move, "	<< PLAYER_NAME_COLOR << players[playerNum]->getName() << MOVE_PROMPT_COLOR << ": " << rang::style::reset;
 				std::string moveString;
 				std::getline(std::cin, moveString);
-
+				/* TODO
+					Here is where the CPUL and CPUS moves will be determined
+					*/
 				try
 				{
 					// first construct the move, which could throw an exception
