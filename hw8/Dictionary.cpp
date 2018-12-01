@@ -7,6 +7,7 @@
 
 #include "Dictionary.h"
 #include "Exceptions.h"
+#include "Trie.h"
 #include "Util.h"
 
 Dictionary::Dictionary(std::string dictionary_file_name):
