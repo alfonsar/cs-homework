@@ -20,17 +20,20 @@ class TrieSet {
    /* Removes this string from the set.
       Do nothing if the string is not already in the set. */
 
-  TrieNode* prefix(std::string px); 
+  TrieNode* prefix(std::string px) const; 
    /* returns the TrieNode matching the provided string, or returns NULL 
       if it is not the prefix of a word in the Trie. */
-  void makeChildren(TrieNode* root);
+ 
+   
+  private:
+     TrieNode* root;
+      void produceOffSpring(TrieNode* root);
    //will set all of its children of given parameter to NULL
-  bool hasChildren(TrieNode* root);
+  bool childrenExist(TrieNode* root);
    /*will check if there are children meaning at least
       one is not NULL */
-  void printSet(TrieNode* node);
+  
+  TrieNode* adjustPointer(TrieNode* node, int loc);
   void clear(TrieNode* root);
     //recursive call for deleting nodes. Will be called in destructor
-  private:
-      TrieNode* root;
 };
