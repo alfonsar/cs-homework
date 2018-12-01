@@ -9,14 +9,11 @@
 TrieSet::TrieSet()
 {
     TrieNode* ourRoot= new TrieNode;
-    ourRoot->inSet=0;
-    ourRoot->parent=NULL;
-    root=ourRoot;
-    for(int i=0; i<26;i++)
-    {
-    	ourRoot->children[i]=NULL;
-    }
     ourRoot->letter='%';
+    ourRoot->parent=NULL;
+    ourRoot->inSet=0;
+    root=ourRoot;
+    produceOffSpring(ourRoot);
 }
 TrieSet::~TrieSet()
 {
@@ -36,7 +33,8 @@ bool TrieSet::childrenExist(TrieNode* root)
 }
 void TrieSet::produceOffSpring(TrieNode* root)
 {
-    for(int i=0; i<26; i++){root->children[i]=NULL;}
+    for(int i=0; i<26; i++)
+    {root->children[i]=NULL;}
 }
 /* Add this string to the set.
 Do nothing if the string is already in the set. */
@@ -59,35 +57,33 @@ void TrieSet::insert(std::string input)
         if(!trav)
         {
             TrieNode* newNode= new TrieNode;
-            //have trav point to new node
             trav=newNode;
-            parental->children[loc]=trav;
             //have the new node point to its parent
             trav->parent=parental;
-            //we change node's letter 
-            trav->letter=input[i];
             //will then allocate another 26 children 
             produceOffSpring(trav);
+            //we change node's letter 
+            trav->letter=input[i];
+            
+            parental->children[loc]=trav;
         }
-        else
-        {
-            //move onto next letter of input
-            continue;
-        }
+       
     }
     //when we are all done, we set inSet to true
     //to show it is end of word
     trav->inSet=1;
-
 }
+
 void TrieSet::remove(std::string input)
 {
-    //make the input lowercase
-    std::transform(input.begin(),input.end(),input.begin(),::tolower);
     //will create a pointer traverse through the tree
     TrieNode* trav=prefix(input);
+    if(!trav)
+    {
+        return;
+    }
     //since we are deleting, set inSet to false
-    trav->inSet=0;
+    trav->inSet=false;
     //if the node that we are at has no children,
     //we will deallocate all its children
     //then we set that node to '/'
@@ -99,14 +95,14 @@ void TrieSet::remove(std::string input)
        	//because we do not delete root
        	if(trav->letter=='%')
        	{
-       		break;
+       		return;
        	}
         //if we land at a node whose inset is true
         //then we will break cause we do not want to delete 
         //a node belonging to another word
         if(trav->inSet)
         {
-            break;
+            return;
         }
         //set a pointer to the parent of node 
         //we want to delete
@@ -122,7 +118,7 @@ void TrieSet::remove(std::string input)
 TrieNode* TrieSet::prefix(std::string px) const
 {
     //make the input lowercase
-    //std::transform(px.begin(),px.end(),px.begin(),::tolower);
+    std::transform(px.begin(),px.end(),px.begin(),::tolower);
     //will create a pointer traverse through the tree
     TrieNode* trav=root;
   	//grab the length of input
@@ -141,25 +137,9 @@ TrieNode* TrieSet::prefix(std::string px) const
             //word does not exist and will return null
             return NULL;
         }
-        else
-        {
-            continue;
-        }
     }
     //return pointer to it
     return trav;
-}
-void TrieSet::printSet(TrieNode* node) {
-
-	std::cout<<node->letter<<std::endl;
-	for(int i=0;i<26;i++)
-	{
-		if(node->children[i]!=nullptr)
-		{
-			printSet(node->children[i]);
-		}
-	}
-
 }
 void TrieSet::clear(TrieNode* node)
 {
