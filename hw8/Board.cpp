@@ -141,7 +141,7 @@ Square* Board::getSquare(const Board::SquareCoords &coords) const
 	return _squares[coords.row][coords.col];
 }
 
-Board::Board(std::string board_file_name):
+Board::Board(std::string board_file_name, std::string initFile):
 _squares(),
 _numRows(),
 _numColumns(),
@@ -239,6 +239,10 @@ _isFirstMove(false)
 		}
 
 		++lineIndex;
+	}
+	if(initFile!="")
+	{
+		createInitBoard(initFile,_numRows,_numColumns);
 	}
 }
 
@@ -432,5 +436,30 @@ size_t Board::getRows() const
 size_t Board::getColumns() const
 {
 	return _numColumns;
+}
+void Board::createInitBoard(std::string input, int rows, int columns)
+{
+	std::ifstream infile(input);
+	for(int i=0; i<rows;i++)
+	{
+		for(int j=0; j<columns*3;j+=3)
+		{
+			char set;
+			infile>>set;
+			if(set=='.')
+			{
+				continue;
+			}
+			else if((set>='a' && set<='z') || (set>='A' && set<='Z'))
+			{
+				//make tile
+				int score;
+				infile>>score;
+				//now place score 
+				Tile* add = new Tile(set,score);
+				getSquare(i,j%3)->placeTile(add);				
+			}
+		}
+	}
 }
 

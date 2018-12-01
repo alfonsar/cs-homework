@@ -81,7 +81,7 @@ public:
 	   If the file contains unexpected characters, will throw a FileException
 	   with message "BOARDCONTENT".
 	*/
-	Board (std::string board_file_namey);
+	Board (std::string board_file_namey, std::string initFile);
 
 	~Board ();
 
@@ -135,6 +135,9 @@ public:
 
 	/* Returns the number of columns of the board.*/
 	size_t getColumns() const;
+	//function to grab in the init file if it has it
+	void createInitBoard(std::string input, int rows, int columns);
+
 
 };
 
