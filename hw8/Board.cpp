@@ -448,6 +448,9 @@ void Board::createInitBoard(std::string input, int rows, int columns)
 			infile>>set;
 			if(set=='.')
 			{
+				char dummy;
+				infile>>dummy;
+				infile>>dummy;
 				continue;
 			}
 			else if((set>='a' && set<='z') || (set>='A' && set<='Z'))
@@ -457,7 +460,7 @@ void Board::createInitBoard(std::string input, int rows, int columns)
 				infile>>score;
 				//now place score 
 				Tile* add = new Tile(set,score);
-				getSquare(i,j/3)->placeTile(add);				
+				getSquare(j/3+1,i)->placeTile(add);				
 			}
 		}
 	}

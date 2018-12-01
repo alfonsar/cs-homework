@@ -7,7 +7,6 @@
 
 #include "Dictionary.h"
 #include "Exceptions.h"
-#include "Trie.h"
 #include "Util.h"
 
 Dictionary::Dictionary(std::string dictionary_file_name):
@@ -43,10 +42,7 @@ Dictionary::~Dictionary()
 bool Dictionary::isLegalWord(std::string const &word) const
 {
 	
-	std::string lowercaseWord(word);
-	makeLowercase(lowercaseWord);
-	//return words.find(lowercaseWord) != words.end();
-	TrieNode* node=prefix(lowercaseWord);
+	TrieNode* node=words.prefix(word);
 	if(node==NULL) return 0;
 	if(!node->inSet) return 0;
 	return 1;

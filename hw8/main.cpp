@@ -131,7 +131,7 @@ int main(int argc, char** argv)
 
 		bag = new Bag(configFile->tilesetFile, configFile->randomSeed);
 		dictionary = new Dictionary(configFile->dictionaryFile);
-		board = new Board(configFile->boardFile);
+		board = new Board(configFile->boardFile, configFile->init_file);
 	}
 	catch(FileException & fileException)
 	{
@@ -216,41 +216,54 @@ int main(int argc, char** argv)
 
 			Move * playerMove = nullptr;
 			bool correctMove = false;
-
-			while(!correctMove)
+			if(players[playerNum]->getName()=="CPUL")
 			{
-				std::cout << std::endl;
-				std::cout << MOVE_PROMPT_COLOR << "Your move, "	<< PLAYER_NAME_COLOR << players[playerNum]->getName() << MOVE_PROMPT_COLOR << ": " << rang::style::reset;
-				std::string moveString;
-				std::getline(std::cin, moveString);
-				/* TODO
-					Here is where the CPUL and CPUS moves will be determined
-					*/
-				try
+					//TODO
+					
+			}
+			else if(players[playerNum]->getName()=="CPUS")
+			{
+					//TODO
+			}
+			
+			else
+			{
+				while(!correctMove)
 				{
-					// first construct the move, which could throw an exception
-					playerMove = Move::parseMove(moveString, *players[playerNum]);
 
-					// now execute it, which could also throw exceptions
-					playerMove->execute(*board, *bag, *dictionary);
-
-					if(playerMove->isPass())
+					std::cout << std::endl;
+					std::cout << MOVE_PROMPT_COLOR << "Your move, "	<< PLAYER_NAME_COLOR << players[playerNum]->getName() << MOVE_PROMPT_COLOR << ": " << rang::style::reset;
+					std::string moveString;
+					std::getline(std::cin, moveString);
+					/* TODO
+						Here is where the CPUL and CPUS moves will be determined
+						*/
+					try
 					{
-						++sequentialPasses;
+						// first construct the move, which could throw an exception
+						playerMove = Move::parseMove(moveString, *players[playerNum]);
+
+						// now execute it, which could also throw exceptions
+						playerMove->execute(*board, *bag, *dictionary);
+
+						if(playerMove->isPass())
+						{
+							++sequentialPasses;
+						}
+						else
+						{
+							sequentialPasses = 0;
+						}
+
+						correctMove = true;
 					}
-					else
+					catch(MoveException & exception)
 					{
-						sequentialPasses = 0;
+						// print error message and reprompt the player
+						std::cout << "Error in move: " << getFriendlyError(exception) << std::endl;
 					}
 
-					correctMove = true;
 				}
-				catch(MoveException & exception)
-				{
-					// print error message and reprompt the player
-					std::cout << "Error in move: " << getFriendlyError(exception) << std::endl;
-				}
-
 			}
 
 			// draw more tiles from the bag to bring the player up to a full hand
@@ -460,6 +473,10 @@ ConfigFile::ConfigFile(std::string const &configPath)
 					else if(keyBuffer == "BOARD")
 					{
 						boardFile = valueBuffer;
+					}
+					else if(keyBuffer=="INIT")
+					{
+						init_file= valueBuffer;
 					}
 					else
 					{
