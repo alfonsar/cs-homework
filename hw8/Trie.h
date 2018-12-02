@@ -1,6 +1,6 @@
 #include <string>
 struct TrieNode {
-  bool inSet;   // Is this node the end of a string in your dictionary?
+  bool inSet=false;   // Is this node the end of a string in your dictionary?
   TrieNode *parent;
   TrieNode *children[26]; // one child for each letter of the alphabet.
   char letter;
