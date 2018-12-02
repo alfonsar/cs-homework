@@ -17,7 +17,7 @@
 
 using namespace std;
 
-/*
+
 string pusher(vector<string>* result, string append, string input, int k);
 void AllCombos(vector<string>& result, string input, int k){
     string append="";
@@ -32,7 +32,8 @@ string pusher(vector<string>* result,string append, string input, int k)
         result->push_back(append);
         return "";
     }
-    for(int i=0; i<input.size(); i++)
+    int len=input.size();
+    for(int i=0; i<len; i++)
     {
         string temp = pusher(result,append+input[i], input, k-1);
     }
@@ -50,38 +51,15 @@ void subString(string s, int n)
 	}
 }
 
-void createInitBoard(std::string input, rows, columns)
-{
-	std::ifstream infile(input);
-	for(int i=0; i<rows;i++)
-	{
-		for(int j=0; j<columns*3;j+=3)
-		{
-			char set;
-			infile>>set;
-			if(set=='.')
-			{
-				continue;
-			}
-			else if((set>='a' && set<='z') || (set>='A' && set<='Z'))
-			{
-				//make tile
-				int score;
-				infile>>score;
-				//now place score 
-				Tile add =Tile(set,score);
-				getSquare(i,j%3)->placeTile(add);				
-			}
-		}
-	}
-}
-*/
+
 int main()
 {
 	
 	return 0;
 }
-
+//function used to find all the starting points for 
+//which we will use to do backtracking 
+//and AI will use to know where to place words
 vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 {
 	vector<pair<size_t,size_t> > spotChecker;
@@ -183,4 +161,14 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 		}
 	}
 	return spotChecker;
+}
+
+void backTrack(vector<pair<size_t,size_t> > coor)
+{
+	vector<pair<size_t,size_t> >::iterator it;
+
+	for(it=coor.begin();it!=coor.end();++it)
+	{
+
+	}
 }
