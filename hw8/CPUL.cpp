@@ -69,6 +69,9 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 		{
 			if(i<2 && j!=cols)
 			{
+				//cover cases where we are at top side of the board
+				//will find an empty square and will only add it
+				//to vector if it is touching a word
 				if(!(board.getSquare(j,i)->isOccupied()) )
 				{
 					if(board.getSquare(j+1,i)->isOccupied()) 
@@ -83,6 +86,8 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 					}
 				}
 			}
+			//covers the case where we are at the left side of 
+			//the board
 			else if(j<2 && i!=rows)
 			{
 				if(!(board.getSquare(j,i)->isOccupied()))
@@ -99,6 +104,7 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 					}
 				}
 			}
+			//covers case of bottom row of the board
 			else if(i==rows && j!=cols)
 			{
 				if(!(board.getSquare(j,i)->isOccupied()))
@@ -115,6 +121,8 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 					}
 				}
 			}
+			//covers case where we are at the right side
+			//of the board
 			else if(j==cols && i!=rows)
 			{
 				if(!board.getSquare(j,i)->isOccupied())
@@ -131,6 +139,8 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 					}
 				}
 			}
+			//other case where we are not at the boarder of the 
+			//board
 			else
 			{
 				if(!board.getSquare(j,i)->isOccupied())
@@ -162,7 +172,7 @@ vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
 	}
 	return spotChecker;
 }
-
+//start the backtracking magic
 void backTrack(vector<pair<size_t,size_t> > coor)
 {
 	vector<pair<size_t,size_t> >::iterator it;
