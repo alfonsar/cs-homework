@@ -54,7 +54,7 @@ void TrieSet::insert(std::string input)
   	int len=input.length();
     //will create a pointer traverse through the tree
     TrieNode* trav=NULL;
-    trav=this->root;
+    trav=root;
     int n=0;
     while(n<len)
     {
