@@ -219,11 +219,15 @@ int main(int argc, char** argv)
 			if(players[playerNum]->getName()=="CPUL")
 			{
 					//TODO
+				//here i just gotta call the CPUL function
+				//that I make.
 					
 			}
 			else if(players[playerNum]->getName()=="CPUS")
 			{
 					//TODO
+				//here I just gotta call the CPUL function
+				//that I make.
 			}
 			
 			else

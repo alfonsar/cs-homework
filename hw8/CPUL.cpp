@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include<vector>
 #include <cmath>
 #include <queue>
 
@@ -15,44 +16,8 @@
 #include "rang.h"
 
 using namespace std;
-/*
-void AllCombos(priority_queue<string>& result, string input, int k)
-{
-	string append="";
-	int len=input.length();
-	permuteAll(&result, append, input, len);
-}
-priority_queue<string> permuteAll(priority_queue<string>*result, string append, string input, int k)
-{
-	if(k==0)
-	{
-		result->push(append);
-		return result;
-	}
-	int len=input.size();
-	for(int i=0; i<len;i++)
-	{
-		string temp=permuteAll(result,append+input[i],input,k-1);
-	}
-	return result;
-}
 
-void sort(priority_queue<string>*result)
-{
-	int len=result.size();
-	for(int i=1; i<len;i++)
-	{
-		string temp = result[i];
-		int j=i-1;
-		while(j>=0 && temp.length()< s[j].length())
-		{
-			s[j+1]=s[j];
-			j--;
-		}
-		s[j+1]=temp;
-	}
-}
-*/
+/*
 string pusher(vector<string>* result, string append, string input, int k);
 void AllCombos(vector<string>& result, string input, int k){
     string append="";
@@ -84,17 +49,138 @@ void subString(string s, int n)
 		}
 	}
 }
+
+void createInitBoard(std::string input, rows, columns)
+{
+	std::ifstream infile(input);
+	for(int i=0; i<rows;i++)
+	{
+		for(int j=0; j<columns*3;j+=3)
+		{
+			char set;
+			infile>>set;
+			if(set=='.')
+			{
+				continue;
+			}
+			else if((set>='a' && set<='z') || (set>='A' && set<='Z'))
+			{
+				//make tile
+				int score;
+				infile>>score;
+				//now place score 
+				Tile add =Tile(set,score);
+				getSquare(i,j%3)->placeTile(add);				
+			}
+		}
+	}
+}
+*/
 int main()
 {
-	string s="abcd";
-	subString(s,s.length());
-	cout<<"all combos"<<endl;
-	cout<<endl;
-	cout<<endl;
 	
-	for(int i=0;i<result.size();i++)
-	{
-		cout<<result[i]<<endl;
-	}
 	return 0;
+}
+
+vector<pair<size_t,size_t> > startingPos(Board& board,size_t rows, size_t cols)
+{
+	vector<pair<size_t,size_t> > spotChecker;
+	for(size_t i=1;i<=rows;i++)
+	{
+		for(size_t j=1;j<=cols;j++)
+		{
+			if(i<2 && j!=cols)
+			{
+				if(!(board.getSquare(j,i)->isOccupied()) )
+				{
+					if(board.getSquare(j+1,i)->isOccupied()) 
+					{
+						std::pair<size_t,size_t> coor(j+1,i);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j,i+1)->isOccupied())
+					{
+						std::pair<size_t,size_t> coor(j,i+1);
+						spotChecker.push_back(coor);
+					}
+				}
+			}
+			else if(j<2 && i!=rows)
+			{
+				if(!(board.getSquare(j,i)->isOccupied()))
+				{
+					if(board.getSquare(j,i+1)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j,i+1);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j+1,i)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j+1,i);
+						spotChecker.push_back(coor);
+					}
+				}
+			}
+			else if(i==rows && j!=cols)
+			{
+				if(!(board.getSquare(j,i)->isOccupied()))
+				{
+					if(board.getSquare(j,i-1)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j,i-1);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j+1,i)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j+1,i);
+						spotChecker.push_back(coor);
+					}
+				}
+			}
+			else if(j==cols && i!=rows)
+			{
+				if(!board.getSquare(j,i)->isOccupied())
+				{
+					if(board.getSquare(j-1,i)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j-1,i);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j,i+1)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j,i+1);
+						spotChecker.push_back(coor);
+					}
+				}
+			}
+			else
+			{
+				if(!board.getSquare(j,i)->isOccupied())
+				{
+					if(board.getSquare(j,i+1)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j,i+1);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j,i-1)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j,i-1);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j+1,i)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j+1,i);
+						spotChecker.push_back(coor);
+					}
+					if(board.getSquare(j-1,i)->isOccupied())
+					{
+						std::pair<size_t,size_t>coor(j+1,i);
+						spotChecker.push_back(coor);
+					}
+				}
+			}
+			
+		}
+	}
+	return spotChecker;
 }

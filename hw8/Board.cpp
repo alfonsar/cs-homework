@@ -440,9 +440,9 @@ size_t Board::getColumns() const
 void Board::createInitBoard(std::string input, int rows, int columns)
 {
 	std::ifstream infile(input);
-	for(int i=0; i<rows;i++)
+	for(int i=1; i<=rows;i++)
 	{
-		for(int j=0; j<columns*3;j+=3)
+		for(int j=1; j<=columns*3;j+=3)
 		{
 			char set;
 			infile>>set;
@@ -458,6 +458,7 @@ void Board::createInitBoard(std::string input, int rows, int columns)
 				//make tile
 				int score;
 				infile>>score;
+				std::cout<<score<<std::endl;
 				//now place score 
 				Tile* add = new Tile(set,score);
 				getSquare(j/3+1,i)->placeTile(add);				
