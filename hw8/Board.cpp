@@ -422,21 +422,6 @@ std::map<char,int> Board::getTileCount() const
 
 	return tileCounts;
 }
-
-Square* Board::getSquare(size_t x, size_t y) const
-{
-	return _squares.at(y - 1).at(x - 1);
-}
-
-size_t Board::getRows() const
-{
-	return _numRows;
-}
-
-size_t Board::getColumns() const
-{
-	return _numColumns;
-}
 void Board::createInitBoard(std::string input, int rows, int columns)
 {
 	std::ifstream infile(input);
@@ -458,7 +443,6 @@ void Board::createInitBoard(std::string input, int rows, int columns)
 				//make tile
 				int score;
 				infile>>score;
-				std::cout<<score<<std::endl;
 				//now place score 
 				Tile* add = new Tile(set,score);
 				getSquare(j/3+1,i)->placeTile(add);				
@@ -466,4 +450,19 @@ void Board::createInitBoard(std::string input, int rows, int columns)
 		}
 	}
 }
+Square* Board::getSquare(size_t x, size_t y) const
+{
+	return _squares.at(y - 1).at(x - 1);
+}
+
+size_t Board::getRows() const
+{
+	return _numRows;
+}
+
+size_t Board::getColumns() const
+{
+	return _numColumns;
+}
+
 
