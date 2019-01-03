@@ -37,12 +37,68 @@ class splayTree: public rotateBST<Key, Value>{
         void remove(const Key& key)
         {
         	Node<Key,Value>* nod=BinarySearchTree<Key,Value>::internalFind(key);
-        	Node<Key,Value>* parental=nod->getParent();
+        	bool two=false;
+        	
+	        //if the key is in tree
+	        if(nod!=nullptr)
+	        {
+	        	if(nod->getRight()!=nullptr && nod->getLeft()!=nullptr)
+        		{
+        			two=true;
+        		}
+	        	if(two)
+	        	{
+	        		Node<Key,Value>* parental=nod->getLeft();
+	        		while(parental->getRight()!=nullptr)
+	        		{
+	        			parental=parental->getRight();
+	        		}
+	        		BinarySearchTree<Key,Value>::remove(key);
+	        		splay(parental);
+	        		return;
+	        	}
+	        	else
+	        	{
+	        		Node<Key,Value>*parental=nod->getParent();
+	        		BinarySearchTree<Key,Value>::remove(key);
+	        		splay (parental);
+	        		return;
+	        	}
+	        }
+	        //if the key is not in tree, we splay the node before it
+	        else
+	        {
+	        	Node<Key,Value>* checker=this->mRoot;
+	        	Node<Key,Value>* before=nullptr;
+	        	while(checker!=nullptr)
+	        	{
+	        		before=checker;
+	        		if(key<checker->getKey())
+	        		{
+	        			checker=checker->getLeft();
+	        		}
+	        		//if key is greater than current node,
+	        		//we move down to right child
+	        		else if(key>checker->getKey())
+	        		{
+	        			checker=checker->getRight();
+	        		}
+		        }
+		        splay(before);
+		        return;
+
+	        }
+        	//Node<Key,Value>* parental=nod->getParent();
         	//if the key is present, then it will remove it
         	//if not then it will not enter if statement and 
         	//will only splay the parent
-        	BinarySearchTree<Key,Value>::remove(key);
-        	splay(parental);
+	       // splay(parental);
+	        //when the node we want to remove has two children
+	        //we use bst removal which swaps the nodes with the predecessor
+	        //and then we remove it so we have to use the parent of the 
+	        //predecessor
+	        //if two children, then  you just splay the predecessor
+        	
         }
         typename splayTree<Key, Value>::iterator find(const Key& key)
         {
@@ -65,7 +121,7 @@ class splayTree: public rotateBST<Key, Value>{
         	//node
         	Node<Key,Value>* before=nullptr;
         	//while place is not null
-        	while(!place)
+        	while(place!=nullptr)
         	{
         		//set it equal to place everytime
         		before=place;
@@ -95,7 +151,6 @@ class splayTree: public rotateBST<Key, Value>{
         	splay(before);
         	typename splayTree<Key,Value>::iterator finder(nullptr);
         	return finder;
-
         }
         //function to find minimum leaf and then splay it
         typename splayTree<Key, Value>::iterator findMin()
@@ -186,8 +241,6 @@ class splayTree: public rotateBST<Key, Value>{
         	//if nodes parent is null, then it is the root so 
         	//no need to splay
         	if(parental==nullptr) return;
-        	//grab the node's parent
-        	
         	//grab the nodes grandparent
         	Node<Key,Value>* grand=parental->getParent();
         	//if the grandparent is null, then parental is the
