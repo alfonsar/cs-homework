@@ -36,17 +36,14 @@ class splayTree: public rotateBST<Key, Value>{
         }
         void remove(const Key& key)
         {
-        	
-        	Node<Key,Value>* nod=BinarySearchTree<Key,Value>::getSmallestNode();
+        	Node<Key,Value>* nod=BinarySearchTree<Key,Value>::internalFind(key);
         	Node<Key,Value>* parental=nod->getParent();
         	//if the key is present, then it will remove it
         	//if not then it will not enter if statement and 
         	//will only splay the parent
-        	//BinarySearchTree<Key,Value>::remove(key);
+        	BinarySearchTree<Key,Value>::remove(key);
         	splay(parental);
         }
-
-     
         typename splayTree<Key, Value>::iterator find(const Key& key)
         {
         	Node<Key,Value>* place=this->mRoot;
@@ -185,11 +182,12 @@ class splayTree: public rotateBST<Key, Value>{
         {
         	//if the given node is null, do nothing and return
         	if (!r) return;
-        	//grab the node's parent
         	Node<Key,Value>* parental=r->getParent();
         	//if nodes parent is null, then it is the root so 
         	//no need to splay
-        	if(!parental) return;
+        	if(parental==nullptr) return;
+        	//grab the node's parent
+        	
         	//grab the nodes grandparent
         	Node<Key,Value>* grand=parental->getParent();
         	//if the grandparent is null, then parental is the
