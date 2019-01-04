@@ -14,12 +14,7 @@ class splayTree: public rotateBST<Key, Value>{
         int right;
         splayTree()
         {
-            left=0;
-            right=0;
-        }
-        void totalRotations()
-        {
-            std::cout<<"Left: "<<left<<" Right: "<<right<<std::endl;
+
         }
         void insert(const std::pair<const Key, Value>& keyValuePair)
         {
@@ -44,7 +39,8 @@ class splayTree: public rotateBST<Key, Value>{
         void remove(const Key& key)
         {
         	Node<Key,Value>* nod=BinarySearchTree<Key,Value>::internalFind(key);
-        	bool two=false;
+        	//bool telling that there are two children
+            bool two=false;
         	
 	        //if the key is in tree
 	        if(nod!=nullptr)
@@ -261,14 +257,12 @@ class splayTree: public rotateBST<Key, Value>{
         		{
         			//zag rotation
         			rotateBST<Key,Value>::leftRotate(parental);
-                    left++;
         			return;
         		}
         		else if(parental->getLeft()==r)
         		{
         			//zig rotation
         			rotateBST<Key,Value>::rightRotate(parental);
-                    right++;
         			return;
         		}
         	}
@@ -277,30 +271,24 @@ class splayTree: public rotateBST<Key, Value>{
         	{
         		rotateBST<Key,Value>::rightRotate(grand);
         		rotateBST<Key,Value>::rightRotate(parental);
-                right+=2;
         	}
         	//zag zag rotation (left/left)
         	else if(grand->getRight()==parental && parental->getRight()==r)
         	{
         		rotateBST<Key,Value>::leftRotate(grand);
         		rotateBST<Key,Value>::leftRotate(parental);
-                left+=2;
         	}
         	//zag-zig rotation (left/right)
         	else if(grand->getLeft()==parental && parental->getRight()==r)
         	{
         		rotateBST<Key,Value>::leftRotate(parental);
         		rotateBST<Key,Value>::rightRotate(grand);
-                left++;
-                right++;
         	}
         	//zig-zag rotation (right/left)
         	else if(grand->getRight()==parental && parental->getLeft()==r)
         	{
         		rotateBST<Key,Value>::rightRotate(parental);
         		rotateBST<Key,Value>::leftRotate(grand);
-                right++;
-                left++;
         	}
         	//recursive call
         	splay(r);

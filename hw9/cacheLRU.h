@@ -9,7 +9,6 @@ class cacheLRU: public splayTree<Key,Value>{
 		{
 			cap=capacity;
 			size=0;
-			totalRemoves=0;
 		}
 		~cacheLRU()
 		{
@@ -29,8 +28,7 @@ class cacheLRU: public splayTree<Key,Value>{
 				{
 					//delete min leaf
 					splayTree<Key,Value>::deleteMinLeaf();
-					//
-					totalRemoves++;
+
 					//decrement size
 					size--;
 				}
@@ -38,9 +36,7 @@ class cacheLRU: public splayTree<Key,Value>{
 				splayTree<Key,Value>::insert(keyValuePair);
 				//increase size
 				size++;
-
 			}
-		
 			
 		}
 		std::pair<const Key, Value> get(const Key& key)
@@ -56,14 +52,9 @@ class cacheLRU: public splayTree<Key,Value>{
 				return std::make_pair(lookup->getKey(),lookup->getValue());
 			}
 		}
-		void totalRemove()
-		{
-			std::cout<<"Total Removes: "<<totalRemoves<<std::endl;
-		}
 	private:
 		//the capacity of the cache
 		int cap;
 		//the actual size of the cache at a particular moment
 		int size;
-		int totalRemoves;
 };
