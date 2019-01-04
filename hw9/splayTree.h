@@ -10,8 +10,6 @@
 template <typename Key, typename Value>
 class splayTree: public rotateBST<Key, Value>{
     public:
-        int left;
-        int right;
         splayTree()
         {
 
