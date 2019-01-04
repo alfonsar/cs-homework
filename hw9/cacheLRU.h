@@ -23,24 +23,26 @@ class cacheLRU: public splayTree<Key,Value>{
 			//key is not already in there so we add it
 			if(BinarySearchTree<Key,Value>::internalFind(key)==nullptr)
 			{
+				//if we reach capactiy, we must remove the minleaf node
+				if(size>=cap)
+				{
+					//delete min leaf
+					splayTree<Key,Value>::deleteMinLeaf();
+					//decrement size
+					size--;
+				}
 				//call the insert function from splay
 				splayTree<Key,Value>::insert(keyValuePair);
 				//increase size
 				size++;
+
 			}
-			//if we reach capactiy, we must remove the minleaf node
-			if(size>cap)
-			{
-				std::cout<<"enter here"<<std::endl;
-				//delete min leaf
-				splayTree<Key,Value>::deleteMinLeaf();
-				//decrement size
-				size--;
-			}
+		
 			
 		}
 		std::pair<const Key, Value> get(const Key& key)
 		{
+			splayTree<Key,Value>::find(key);
 			Node<Key,Value>* lookup= BinarySearchTree<Key,Value>::internalFind(key);
 			if(lookup==nullptr)
 			{
@@ -56,5 +58,4 @@ class cacheLRU: public splayTree<Key,Value>{
 		int cap;
 		//the actual size of the cache at a particular moment
 		int size;
-		splayTree<Key,Value> tree;
 };
