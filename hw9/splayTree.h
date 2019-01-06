@@ -87,19 +87,7 @@ class splayTree: public rotateBST<Key, Value>{
 		        }
 		        splay(before);
 		        return;
-
 	        }
-        	//Node<Key,Value>* parental=nod->getParent();
-        	//if the key is present, then it will remove it
-        	//if not then it will not enter if statement and 
-        	//will only splay the parent
-	       // splay(parental);
-	        //when the node we want to remove has two children
-	        //we use bst removal which swaps the nodes with the predecessor
-	        //and then we remove it so we have to use the parent of the 
-	        //predecessor
-	        //if two children, then  you just splay the predecessor
-        	
         }
         typename splayTree<Key, Value>::iterator find(const Key& key)
         {
@@ -120,6 +108,8 @@ class splayTree: public rotateBST<Key, Value>{
         	}
         	//will be used to hold the node before my traversing 
         	//node
+        	//this is necessary since if the key is not in tree,
+        	//we can splay the node that was last visited
         	Node<Key,Value>* before=nullptr;
         	//while place is not null
         	while(place!=nullptr)
@@ -157,7 +147,8 @@ class splayTree: public rotateBST<Key, Value>{
         typename splayTree<Key, Value>::iterator findMin()
         {
         	//make pointer to root
-        	Node<Key,Value>* place=this->mRoot;
+        	Node<Key,Value>* place=nullptr;
+        	place=this->mRoot;
         	//if root is null, it is empty so return 
         	//null iterator
         	if(place==nullptr)
@@ -181,7 +172,8 @@ class splayTree: public rotateBST<Key, Value>{
         //function to find max node and then splay it
         typename splayTree<Key, Value>::iterator findMax()
         {
-        	Node<Key,Value>* place=this->mRoot;
+        	Node<Key,Value>* place=nullptr;
+        	place=this->mRoot;
         	if(place==nullptr)
         	{
         		typename splayTree<Key,Value>::iterator finder(nullptr);
@@ -200,7 +192,8 @@ class splayTree: public rotateBST<Key, Value>{
         //find the min leaf and then just remove it
         void deleteMinLeaf()
         {
-        	Node<Key,Value>* place=this->mRoot;
+        	Node<Key,Value>* place=nullptr;
+        	place=this->mRoot;
         	if(place==nullptr) 
         	{
         		return;
@@ -218,7 +211,8 @@ class splayTree: public rotateBST<Key, Value>{
         //find the max leaf and then simply remove it
         void deleteMaxLeaf()
         {
-        	Node<Key,Value>* place=this->mRoot;
+        	Node<Key,Value>* place=nullptr;
+        	place=this->mRoot;
         	if(place==nullptr)
         	{
         		return;
