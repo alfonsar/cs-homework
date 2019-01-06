@@ -138,7 +138,7 @@ class splayTree: public rotateBST<Key, Value>{
         		}
         	}
         	//if we ever reach this point, it means the key was not
-        	//in tree so return null ptr
+        	//in tree so return end
         	splay(before);
         	typename splayTree<Key,Value>::iterator finder(nullptr);
         	return finder;
