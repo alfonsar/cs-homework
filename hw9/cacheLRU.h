@@ -16,7 +16,7 @@ class cacheLRU: public splayTree<Key,Value>{
 		}
 		void put(const std::pair<const Key, Value>& keyValuePair)
 		{
-			//create a variable to store the key 
+			//create a variable to store key 
 			Key key=keyValuePair.first;
 			//use the internal find function to find the key.
 			//since the function returns a pointer, if it is null, then the 
